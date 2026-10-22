@@ -3,6 +3,10 @@
 **A GitHub issue with a screenshot and no file names goes in. The source files
 behind it come out.**
 
+### ▶ Live demo: **<https://snaplocate.vercel.app>**
+
+No sign-up, no key — it replays a recorded real run and says so on screen.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-d97757.svg)](LICENSE)
 &nbsp;[![Model: Gemma 4 (open weights)](https://img.shields.io/badge/Model-Gemma%204%20(open%20weights)-9d8df1.svg)](https://ai.google.dev/gemma/terms)
 &nbsp;![Dependencies: none](https://img.shields.io/badge/Runtime%20deps-none%20(stdlib%20only)-7fa88a.svg)
@@ -11,7 +15,10 @@ behind it come out.**
 
 ## Try it in 30 seconds — no API key, no install, no network
 
-Everything needed is committed. Clone and run:
+**Easiest:** open <https://snaplocate.vercel.app> and click one of the cached
+issues. That is the whole product, running.
+
+**Or locally** — everything needed is committed:
 
 ```bash
 git clone <this-repo> && cd snaplocate
