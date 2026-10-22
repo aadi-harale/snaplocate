@@ -212,6 +212,13 @@ def run(issue_url=None, repo_root=".", graph_path=None, *,
         out["final_source"] = "fusion"
     out["final"] = final
 
+    # A drawable neighbourhood around the picks, so the UI can show the code
+    # graph instead of only asserting that one was used.
+    out["subgraph"] = (cg.subgraph([f["path"] for f in (final or ranked)[:3]],
+                                   repo_files)
+                       if cg and cg.ok else
+                       {"nodes": [], "edges": [], "truncated": False})
+
     out["difficulty"] = fuse.difficulty(final or ranked, cg, repo_files)
     out["blast_radius"] = fuse.blast_radius(final or ranked, cg, repo_files)
     out["timing"]["total"] = round(_now() - t0, 3)

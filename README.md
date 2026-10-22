@@ -1,5 +1,22 @@
 # SnapLocate
 
+**A GitHub issue with a screenshot and no file names goes in. The source files
+behind it come out.**
+
+```bash
+python3 scripts/selftest.py        # 116 checks, no network, no API key
+python3 -m snaplocate.cli serve --repo <repo> --graph <repo>/graphify-out/graph.json
+```
+
+| | |
+|---|---|
+| Model | **Gemma 4** (`gemma-4-26b-a4b-it`) — open weights |
+| Code graph | **Graphify** (`graphifyy`), with a stdlib fallback |
+| Runtime deps | **none** — Python 3.10+ standard library only |
+| Licence | MIT |
+| Host | DigitalOcean Droplet, or DO Serverless Inference for the model |
+
+
 **A GitHub issue with a screenshot and no file names goes in. The likely source
 files, the call path, an S/M/L difficulty rating and the blast radius come out.**
 

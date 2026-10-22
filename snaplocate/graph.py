@@ -175,6 +175,7 @@ class CodeGraph:
         self.source = None
         self.builder_note = None  # fallback builders stamp their caveats here
         self.relations = {}       # relation type -> count (graphify gives these)
+        self.edge_relation = {}   # (a,b) -> relation type, for drawing
         self.builder = "unknown"  # "graphify" | "snaplocate-fallback" 
         self._resolve_cache = {}
 
@@ -246,9 +247,10 @@ class CodeGraph:
                 a, b = e[0], e[1]
             if a is None or b is None:
                 continue
+            a, b = str(a), str(b)
             if isinstance(e, dict) and e.get("relation"):
                 g.relations[e["relation"]] = g.relations.get(e["relation"], 0) + 1
-            a, b = str(a), str(b)
+                g.edge_relation[(a, b)] = e["relation"]
             g.adj.setdefault(a, set()).add(b)
             g.adj.setdefault(b, set()).add(a)   # undirected for propagation
             g.n_edges += 1
@@ -425,6 +427,88 @@ class CodeGraph:
                 if nid in self.community:
                     out.add(self.community[nid])
         return sorted(out)
+
+    def subgraph(self, rels, repo_files, hops=2, max_nodes=60):
+        """A small file-level graph around `rels`, for drawing.
+
+        Collapses Graphify's symbol nodes onto their files, so the picture is
+        "which files touch which", which is the question the user actually
+        has. Edge relation types are kept (calls / imports / contains ...)
+        because "A calls B" is a different claim from "A imports B".
+        Returns {"nodes": [...], "edges": [...], "truncated": bool}.
+        """
+        mapping, _ = self.resolve(repo_files)
+        if not mapping:
+            return {"nodes": [], "edges": [], "truncated": False}
+
+        node_file = {}
+        for rel, nids in mapping.items():
+            for nid in nids:
+                node_file[nid] = rel
+
+        seeds = [r for r in rels if r in mapping]
+        if not seeds:
+            return {"nodes": [], "edges": [], "truncated": False}
+
+        # BFS over symbol nodes, recording the file each one belongs to.
+        start = [n for r in seeds for n in mapping[r]]
+        depth = {n: 0 for n in start}
+        frontier = list(start)
+        for hop in range(1, hops + 1):
+            nxt = []
+            for nid in frontier:
+                for nb in self.adj.get(nid, ()):
+                    if nb not in depth:
+                        depth[nb] = hop
+                        nxt.append(nb)
+            frontier = nxt
+            if not frontier:
+                break
+
+        # Collapse to files, keeping the shortest distance.
+        file_depth = {}
+        for nid, d in depth.items():
+            f = node_file.get(nid)
+            if f is None:
+                continue
+            if f not in file_depth or d < file_depth[f]:
+                file_depth[f] = d
+
+        ordered = sorted(file_depth.items(), key=lambda kv: (kv[1], kv[0]))
+        truncated = len(ordered) > max_nodes
+        keep = dict(ordered[:max_nodes])
+
+        comm = {}
+        for rel in keep:
+            for nid in mapping.get(rel, ()):
+                if nid in self.community:
+                    comm[rel] = self.community[nid]
+                    break
+
+        edges, seen = [], set()
+        for a, nbrs in self.adj.items():
+            fa = node_file.get(a)
+            if fa not in keep:
+                continue
+            for b in nbrs:
+                fb = node_file.get(b)
+                if fb not in keep or fa == fb:
+                    continue
+                k = (fa, fb) if fa < fb else (fb, fa)
+                if k in seen:
+                    continue
+                seen.add(k)
+                edges.append({"source": k[0], "target": k[1],
+                              "relation": self.edge_relation.get((a, b))
+                              or self.edge_relation.get((b, a)) or "related"})
+
+        return {
+            "nodes": [{"path": p, "depth": d, "community": comm.get(p),
+                       "seed": p in seeds} for p, d in keep.items()],
+            "edges": edges,
+            "truncated": truncated,
+            "total_files": len(file_depth),
+        }
 
     def doctor_report(self):
         return {
