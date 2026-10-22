@@ -98,23 +98,108 @@ class GemmaError(RuntimeError):
     pass
 
 
-def api_key():
+# ---------------------------------------------------------------------------
+# PROVIDERS
+#
+# Gemma 4 is open-weight, so the same model is served in more than one place.
+# The provider only changes HOW the bytes are sent -- the JSON contract the
+# rest of SnapLocate consumes is identical, so nothing downstream knows or
+# cares which one is in use.
+#
+#   google        generativelanguage API, x-goog-api-key, :generateContent
+#                 VERIFIED WORKING 2026-10-22.
+#   digitalocean  DigitalOcean Serverless Inference, Bearer auth, an
+#                 OpenAI-compatible /chat/completions endpoint. Runs the
+#                 open-weight model on DigitalOcean's own infrastructure.
+#                 *** NOT YET TESTED -- no DO key was available. ***
+# ---------------------------------------------------------------------------
+
+def provider():
+    p = (os.environ.get("SNAPLOCATE_PROVIDER") or "").strip().lower()
+    if p:
+        return p
+    # A DO key with no Google key is an unambiguous signal.
+    if os.environ.get("DIGITALOCEAN_INFERENCE_KEY") and not (
+            os.environ.get("GEMMA_API_KEY") or os.environ.get("GOOGLE_API_KEY")):
+        return "digitalocean"
+    return "google"
+
+
+def api_key(prov=None):
+    prov = prov or provider()
+    if prov == "digitalocean":
+        return (os.environ.get("DIGITALOCEAN_INFERENCE_KEY")
+                or os.environ.get("DO_INFERENCE_KEY")
+                or os.environ.get("DIGITALOCEAN_API_KEY"))
     return os.environ.get("GEMMA_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 
 
-def _post(model, payload, key, timeout=None):
-    url = "%s/%s:generateContent" % (config.API_BASE, model)
-    body = json.dumps(payload).encode("utf-8")
+def default_model(prov=None):
+    prov = prov or provider()
+    if prov == "digitalocean":
+        return os.environ.get("SNAPLOCATE_MODEL") or config.DO_MODEL_DEFAULT
+    return os.environ.get("SNAPLOCATE_MODEL") or config.MODEL_DEFAULT
+
+
+def _parts_to_openai(parts):
+    """Translate our generateContent parts into OpenAI chat content blocks."""
+    content = []
+    for p in parts:
+        if "text" in p:
+            content.append({"type": "text", "text": p["text"]})
+        elif "inline_data" in p:
+            d = p["inline_data"]
+            content.append({"type": "image_url", "image_url": {
+                "url": "data:%s;base64,%s" % (d["mime_type"], d["data"])}})
+    return content
+
+
+def _post(model, payload, key, timeout=None, prov=None):
+    prov = prov or provider()
+    timeout = timeout or config.API_TIMEOUT
+
+    if prov == "digitalocean":
+        url = config.DO_API_BASE.rstrip("/") + "/chat/completions"
+        gen = payload.get("generationConfig") or {}
+        body = {
+            "model": model,
+            "messages": [{"role": "user", "content": _parts_to_openai(
+                payload["contents"][0]["parts"])}],
+            "temperature": gen.get("temperature", 0.0),
+            "max_tokens": gen.get("maxOutputTokens", config.MAX_TOKENS_DEFAULT),
+        }
+        headers = {"Content-Type": "application/json",
+                   "Authorization": "Bearer " + key}
+    else:
+        url = "%s/%s:generateContent" % (config.API_BASE, model)
+        body = payload
+        headers = {"Content-Type": "application/json", "x-goog-api-key": key}
+
     req = urllib.request.Request(
-        url, data=body, method="POST",
-        headers={"Content-Type": "application/json", "x-goog-api-key": key},
-    )
-    with urllib.request.urlopen(req, timeout=timeout or config.API_TIMEOUT) as r:
+        url, data=json.dumps(body).encode("utf-8"), method="POST",
+        headers=headers)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read().decode("utf-8", "replace"))
 
 
 def _text_of(resp):
-    """Pull the concatenated text out of a generateContent response."""
+    """Pull the text out of a reply, in either provider's shape."""
+    if not isinstance(resp, dict):
+        return ""
+    # OpenAI-compatible (DigitalOcean)
+    try:
+        choices = resp.get("choices")
+        if choices:
+            msg = choices[0].get("message") or {}
+            c = msg.get("content")
+            if isinstance(c, str):
+                return c
+            if isinstance(c, list):      # some servers return blocks
+                return "".join(b.get("text", "") for b in c
+                               if isinstance(b, dict))
+    except (AttributeError, IndexError, TypeError):
+        pass
+    # generateContent (Google)
     try:
         parts = resp["candidates"][0]["content"]["parts"]
     except (KeyError, IndexError, TypeError):
@@ -125,10 +210,13 @@ def _text_of(resp):
 def call_model(parts, model=None, key=None, retries=1, timeout=None,
                budget=None, max_tokens=None):
     """One generateContent call. Raises GemmaError on definitive failure."""
-    key = key or api_key()
+    prov = provider()
+    key = key or api_key(prov)
     if not key:
-        raise GemmaError("no API key: set GEMMA_API_KEY")
-    model = model or os.environ.get("SNAPLOCATE_MODEL") or config.MODEL_DEFAULT
+        raise GemmaError(
+            "no API key: set GEMMA_API_KEY (Google) or "
+            "DIGITALOCEAN_INFERENCE_KEY (DigitalOcean)")
+    model = model or default_model(prov)
 
     payload = {
         "contents": [{"role": "user", "parts": parts}],
@@ -168,8 +256,9 @@ def call_model(parts, model=None, key=None, retries=1, timeout=None,
                 "budget exhausted)" % (budget or config.API_BUDGET, model))
         try:
             # never let one socket wait outlast the whole budget
-            resp = _post(model, payload, key, min(timeout or config.API_TIMEOUT,
-                                                  remaining))
+            resp = _post(model, payload, key,
+                         min(timeout or config.API_TIMEOUT, remaining),
+                         prov=prov)
             return _text_of(resp), model
         except urllib.error.HTTPError as exc:
             detail = ""

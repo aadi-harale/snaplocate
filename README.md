@@ -189,6 +189,31 @@ happened to work.
 
 ---
 
+## DigitalOcean
+
+Two independent ways DigitalOcean carries this project:
+
+**1. The model itself runs on DigitalOcean.** Gemma 4 is open-weight, so the
+same model is served by DigitalOcean Serverless Inference. SnapLocate treats
+the provider as swappable behind one JSON contract — nothing downstream knows
+which is in use:
+
+```bash
+export SNAPLOCATE_PROVIDER=digitalocean
+export DIGITALOCEAN_INFERENCE_KEY=...
+python3 -m snaplocate.cli locate <issue_url> --repo <r> --graph <g>
+```
+
+`https://inference.do-ai.run/v1`, OpenAI-compatible, model `gemma-4-31B-it`.
+**This path is written but NOT TESTED** — no DigitalOcean key was available.
+The Google path is verified working; try the DO one before relying on it.
+
+**2. The app runs on a Droplet.** `deploy/droplet.sh` — Ubuntu, systemd, ufw.
+Because the backend is stdlib-only there is nothing to `pip install`: git +
+python3 + the repo and it serves.
+
+---
+
 ## Offline demo mode
 
 The venue wifi dies, or the API rate-limits you mid-demo. Record a real run

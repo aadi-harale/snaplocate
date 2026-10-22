@@ -72,6 +72,13 @@ BLAST_HOPS = 2              # UNTUNED
 MODEL_DEFAULT = "gemma-4-26b-a4b-it"
 MODEL_FALLBACK = "gemma-4-31b-it"
 API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
+
+# DigitalOcean Serverless Inference: the SAME open-weight Gemma 4, served on
+# DigitalOcean infrastructure, through an OpenAI-compatible API.
+# Set SNAPLOCATE_PROVIDER=digitalocean and DIGITALOCEAN_INFERENCE_KEY.
+# *** UNTESTED: no DigitalOcean key was available when this was written. ***
+DO_API_BASE = "https://inference.do-ai.run/v1"
+DO_MODEL_DEFAULT = "gemma-4-31B-it"   # the id DO lists for serverless
 API_TIMEOUT = 90          # per-socket-operation timeout
 
 # TOTAL wall-clock budget for one model call, retries and backoff included.
