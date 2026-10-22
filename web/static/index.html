@@ -417,7 +417,7 @@ footer b{color:var(--ink-2)}
     <span class="tag" id="tagModel">Gemma&nbsp;4</span>
     <span class="tag" id="tagGraph">Graphify</span>
     <span class="tag">stdlib only</span>
-    <span class="tag warn hide" id="tagOffline">offline</span>
+    <span class="tag on hide" id="tagOffline">instant demo</span>
     <span class="tag on hide" id="tagCacheFirst">cache-first</span>
     <span class="tag on hide" id="tagRec">recording</span>
   </div>
@@ -584,7 +584,8 @@ function clearNotes(){ $("#msg").innerHTML=""; }
 /* health */
 fetch("/api/health").then(r=>r.json()).then(h=>{
   const bits=[]; let cls="";
-  if(h.offline){ cls="warn"; bits.push("offline"); $("#tagOffline").classList.remove("hide"); }
+  if(h.offline){ bits.push("instant demo · recorded runs");
+    $("#tagOffline").classList.remove("hide"); }
   else bits.push(h.model_key_present?"model key ok":"NO MODEL KEY");
   if(h.cache_first&&!h.offline){ $("#tagCacheFirst").classList.remove("hide");
     bits.push("cache-first"); }
@@ -595,9 +596,10 @@ fetch("/api/health").then(r=>r.json()).then(h=>{
   else if(!h.graph_exists&&!cls) cls="warn";
   $("#health").innerHTML='<span class="dot '+cls+'"></span>'+esc(bits.join(" · "));
 
-  if(h.offline) note("warn","<b>Offline demo mode.</b> Nothing touches the "+
-    "network. Only cached issues can be shown, and every result is labelled "+
-    "as a replay.");
+  if(h.offline) note("ok","<b>Instant demo.</b> These runs were recorded "+
+    "against the live Gemma 4 API and the real Graphify graph, then saved, so "+
+    "they replay in milliseconds with no key and no wait. Every result says "+
+    "when it was recorded.");
   else if(!h.model_key_present) note("bad","<b>No GEMMA_API_KEY on the "+
     "server.</b> Live runs cannot read the screenshot."+
     (nc?" Cached issues will replay instead.":""));
