@@ -1,17 +1,16 @@
 {
   "issue_url": "https://github.com/psf/black/issues/2531",
-  "recorded_at": 1792661538.519243,
-  "recorded_at_human": "2026-10-22 15:02:18",
+  "recorded_at": 1792667071.822007,
+  "recorded_at_human": "2026-10-22 16:34:31",
   "title": "Cannot parse Python 3.10 keywords Eg: match",
   "model": "gemma-4-26b-a4b-it",
   "variant": "snaplocate",
   "used_graph": true,
-  "n_ranked": 56,
+  "n_ranked": 97,
   "n_regions": 3,
   "image_key": "945de67894dabee8",
   "image_url": "https://user-images.githubusercontent.com/4533119/136465771-59933ab9-0a8e-4fcb-a8ea-6c40ef78639f.png",
   "degraded_when_recorded": [
-    "graph came from the FALLBACK builder, not Graphify",
-    "rerank failed (GemmaError): showing the fused ranking instead"
+    "rerank failed (RuntimeError): showing the fused ranking instead"
   ]
 }

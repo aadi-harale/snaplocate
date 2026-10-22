@@ -1,18 +1,17 @@
 {
-  "issue_url": "https://github.com/psf/black/issues/2531",
+  "issue_url": null,
   "repo_root": "C:/sl/black",
   "graph_path": "C:/sl/black/graphify-out/graph.json",
   "degraded": [
-    "graph came from the FALLBACK builder, not Graphify",
-    "rerank failed (GemmaError): showing the fused ranking instead"
+    "rerank failed (RuntimeError): showing the fused ranking instead"
   ],
   "timing": {
-    "fetch": 0.863,
-    "xray": 89.588,
-    "search": 0.091,
-    "graph": 0.0,
-    "rerank": 3.744,
-    "total": 94.809
+    "fetch": 0.0,
+    "xray": 0.0,
+    "search": 0.101,
+    "graph": 0.016,
+    "rerank": 0.0,
+    "total": 0.133
   },
   "variant": "snaplocate",
   "weights_are_untuned": true,
@@ -133,21 +132,27 @@
     "source": "C:/sl/black/graphify-out/graph.json",
     "ok": true,
     "reason": "ok",
-    "nodes": 375,
-    "edges": 119,
-    "path_key": "id",
+    "nodes": 3500,
+    "edges": 6486,
+    "path_key": "source_file",
     "path_candidates": [
+      {
+        "key": "source_file",
+        "coverage": 1.0,
+        "quality": 0.885,
+        "score": 0.8846
+      },
+      {
+        "key": "label",
+        "coverage": 1.0,
+        "quality": 0.08,
+        "score": 0.0805
+      },
       {
         "key": "id",
         "coverage": 1.0,
-        "quality": 1.0,
-        "score": 1.0
-      },
-      {
-        "key": "path",
-        "coverage": 1.0,
-        "quality": 1.0,
-        "score": 1.0
+        "quality": 0.0,
+        "score": 0.0
       }
     ],
     "community_key": "community",
@@ -156,7 +161,7 @@
         "key": "community",
         "coverage": 1.0,
         "quality": 1.0,
-        "distinct": 317,
+        "distinct": 406,
         "score": 1.0
       }
     ],
@@ -165,26 +170,36 @@
       "target": "target"
     },
     "sample_paths": [
-      "action/main.py",
-      "docs/conf.py",
-      "profiling/dict_big.py",
-      "profiling/list_big.py",
-      "profiling/list_huge.py"
+      "src/blib2to3/pytree.py",
+      "src/black/linegen.py",
+      "src/black/linegen.py",
+      "src/black/lines.py",
+      "src/black/mode.py"
     ],
-    "builder_note": [
-      "FALLBACK BUILDER, NOT GRAPHIFY. Built by snaplocate/mkgraph.py.",
-      "Edges are FILE-LEVEL IMPORTS, not call edges. 'a -> b' means a imports b, not that a calls into b.",
-      "JS/TS/JSX/TSX imports are found by REGEX, not parsed. String literals and commented-out imports can produce phantom edges; dynamic import() with a computed path is missed entirely.",
-      "Communities are CONNECTED COMPONENTS, not Leiden. A single hub file can collapse the whole repo into one component, which makes the S/M/L subsystem count much less meaningful.",
-      "Only files with an extension in config.SOURCE_EXTS are nodes."
-    ],
+    "builder_note": null,
+    "builder": "graphify",
+    "relations": {
+      "calls": 1518,
+      "contains": 1249,
+      "references": 942,
+      "method": 747,
+      "rationale_for": 705,
+      "imports": 450,
+      "imports_from": 392,
+      "uses": 338,
+      "indirect_call": 73,
+      "inherits": 55,
+      "re_exports": 17
+    },
+    "communities": 406,
     "propagation": {
       "resolved": 375,
       "how": {
         "exact": 375,
         "suffix": 0,
         "basename": 0,
-        "unresolved": 0
+        "unresolved": 0,
+        "nodes_mapped": 3093
       },
       "include_hop0": true
     }
@@ -208,9 +223,9 @@
     },
     {
       "path": "tests/data/cases/composition.py",
-      "score": 0.437013,
+      "score": 0.278042,
       "seed": 0.437013,
-      "graph": 0.437013,
+      "graph": 0.039585,
       "rank": 2,
       "evidence": [
         {
@@ -224,9 +239,9 @@
     },
     {
       "path": "tests/data/cases/composition_no_trailing_comma.py",
-      "score": 0.437013,
+      "score": 0.278042,
       "seed": 0.437013,
-      "graph": 0.437013,
+      "graph": 0.039585,
       "rank": 3,
       "evidence": [
         {
@@ -239,434 +254,762 @@
       ]
     },
     {
-      "path": "tests/util.py",
-      "score": 0.2,
+      "path": "tests/test_ipynb.py",
+      "score": 0.123188,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.307971,
       "rank": 4,
       "evidence": []
     },
     {
-      "path": "scripts/fuzz.py",
-      "score": 0.2,
+      "path": "src/black/linegen.py",
+      "score": 0.117391,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.293478,
       "rank": 5,
       "evidence": []
     },
     {
-      "path": "src/black/mode.py",
-      "score": 0.2,
+      "path": "src/black/lines.py",
+      "score": 0.094203,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.235507,
       "rank": 6,
       "evidence": []
     },
     {
-      "path": "src/black/cache.py",
-      "score": 0.2,
+      "path": "src/black/nodes.py",
+      "score": 0.089855,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.224638,
       "rank": 7,
       "evidence": []
     },
     {
-      "path": "src/black/debug.py",
-      "score": 0.2,
+      "path": "src/blib2to3/pytree.py",
+      "score": 0.071014,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.177536,
       "rank": 8,
       "evidence": []
     },
     {
       "path": "src/black/files.py",
-      "score": 0.2,
+      "score": 0.056522,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.141304,
       "rank": 9,
       "evidence": []
     },
     {
-      "path": "src/black/lines.py",
-      "score": 0.2,
+      "path": "src/black/ranges.py",
+      "score": 0.050725,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.126812,
       "rank": 10,
       "evidence": []
     },
     {
-      "path": "src/black/nodes.py",
-      "score": 0.2,
+      "path": "tests/test_black.py",
+      "score": 0.047826,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.119565,
       "rank": 11,
       "evidence": []
     },
     {
-      "path": "src/black/trans.py",
-      "score": 0.2,
+      "path": "src/black/handle_ipynb_magics.py",
+      "score": 0.046377,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.115942,
       "rank": 12,
       "evidence": []
     },
     {
-      "path": "tests/test_docs.py",
-      "score": 0.2,
+      "path": "src/black/parsing.py",
+      "score": 0.042029,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.105072,
       "rank": 13,
       "evidence": []
     },
     {
-      "path": "src/black/ranges.py",
-      "score": 0.2,
+      "path": "src/black/trans.py",
+      "score": 0.04058,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.101449,
       "rank": 14,
       "evidence": []
     },
     {
-      "path": "src/black/report.py",
-      "score": 0.2,
+      "path": "src/black/comments.py",
+      "score": 0.04058,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.101449,
       "rank": 15,
       "evidence": []
     },
     {
-      "path": "tests/test_black.py",
-      "score": 0.2,
+      "path": "src/black/report.py",
+      "score": 0.036232,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.09058,
       "rank": 16,
       "evidence": []
     },
     {
-      "path": "tests/test_ipynb.py",
-      "score": 0.2,
+      "path": "src/black/output.py",
+      "score": 0.034783,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.086957,
       "rank": 17,
       "evidence": []
     },
     {
-      "path": "tests/test_trans.py",
-      "score": 0.2,
+      "path": "tests/util.py",
+      "score": 0.030435,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.076087,
       "rank": 18,
       "evidence": []
     },
     {
-      "path": "src/black/linegen.py",
-      "score": 0.2,
+      "path": "src/black/mode.py",
+      "score": 0.027536,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.068841,
       "rank": 19,
       "evidence": []
     },
     {
-      "path": "src/black/parsing.py",
-      "score": 0.2,
+      "path": "src/black/cache.py",
+      "score": 0.027536,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.068841,
       "rank": 20,
       "evidence": []
     },
     {
-      "path": "src/black/strings.py",
-      "score": 0.2,
+      "path": "src/black/brackets.py",
+      "score": 0.018841,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.047101,
       "rank": 21,
       "evidence": []
     },
     {
-      "path": "src/blackd/client.py",
-      "score": 0.2,
+      "path": "tests/test_ranges.py",
+      "score": 0.017391,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.043478,
       "rank": 22,
       "evidence": []
     },
     {
-      "path": "tests/test_blackd.py",
-      "score": 0.2,
+      "path": "src/blackd/__init__.py",
+      "score": 0.017391,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.043478,
       "rank": 23,
       "evidence": []
     },
     {
-      "path": "tests/test_format.py",
-      "score": 0.2,
+      "path": "src/black/concurrency.py",
+      "score": 0.017391,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.043478,
       "rank": 24,
       "evidence": []
     },
     {
-      "path": "tests/test_ranges.py",
-      "score": 0.2,
+      "path": "src/black/strings.py",
+      "score": 0.014493,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.036232,
       "rank": 25,
       "evidence": []
     },
     {
-      "path": "src/black/__main__.py",
-      "score": 0.2,
+      "path": "tests/test_schedule_formatting.py",
+      "score": 0.012678,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.031696,
       "rank": 26,
       "evidence": []
     },
     {
-      "path": "src/black/brackets.py",
-      "score": 0.2,
+      "path": "tests/test_format.py",
+      "score": 0.011594,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.028986,
       "rank": 27,
       "evidence": []
     },
     {
-      "path": "src/black/comments.py",
-      "score": 0.2,
+      "path": "src/blib2to3/pygram.py",
+      "score": 0.011594,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.028986,
       "rank": 28,
       "evidence": []
     },
     {
-      "path": "src/blackd/__init__.py",
-      "score": 0.2,
+      "path": "tests/test_tokenize.py",
+      "score": 0.011594,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.028986,
       "rank": 29,
       "evidence": []
     },
     {
-      "path": "tests/test_no_ipynb.py",
-      "score": 0.2,
+      "path": "tests/test_blackd.py",
+      "score": 0.008696,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.021739,
       "rank": 30,
       "evidence": []
     },
     {
-      "path": "tests/test_tokenize.py",
-      "score": 0.2,
+      "path": "tests/test_no_ipynb.py",
+      "score": 0.008696,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.021739,
       "rank": 31,
       "evidence": []
     },
     {
-      "path": "src/black/concurrency.py",
-      "score": 0.2,
+      "path": "scripts/diff_shades_gha_helper.py",
+      "score": 0.008696,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.021739,
       "rank": 32,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/__init__.py",
-      "score": 0.2,
+      "path": "src/blib2to3/pgen2/grammar.py",
+      "score": 0.007965,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.019913,
       "rank": 33,
       "evidence": []
     },
     {
-      "path": "scripts/generate_schema.py",
-      "score": 0.2,
+      "path": "tests/test_concurrency_manager_shutdown.py",
+      "score": 0.007246,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.018116,
       "rank": 34,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/tokenize.py",
-      "score": 0.2,
+      "path": "action/main.py",
+      "score": 0.005797,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.014493,
       "rank": 35,
       "evidence": []
     },
     {
-      "path": "tests/data/cases/collections.py",
-      "score": 0.2,
+      "path": "scripts/fuzz.py",
+      "score": 0.005797,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.014493,
       "rank": 36,
       "evidence": []
     },
     {
-      "path": "src/black/handle_ipynb_magics.py",
-      "score": 0.2,
+      "path": "scripts/generate_schema.py",
+      "score": 0.005797,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.014493,
       "rank": 37,
       "evidence": []
     },
     {
-      "path": "tests/test_schedule_formatting.py",
-      "score": 0.2,
+      "path": "src/blib2to3/pgen2/driver.py",
+      "score": 0.005797,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.014493,
       "rank": 38,
       "evidence": []
     },
     {
-      "path": "tests/test_concurrency_manager_shutdown.py",
-      "score": 0.2,
+      "path": "src/black/debug.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.5,
+      "graph": 0.01087,
       "rank": 39,
       "evidence": []
     },
     {
-      "path": "tests/__init__.py",
-      "score": 0.1,
+      "path": "tests/test_docs.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.01087,
       "rank": 40,
       "evidence": []
     },
     {
-      "path": "tests/conftest.py",
-      "score": 0.1,
+      "path": "src/blackd/client.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.01087,
       "rank": 41,
       "evidence": []
     },
     {
-      "path": "tests/test_action.py",
-      "score": 0.1,
+      "path": "src/blib2to3/pgen2/parse.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.01087,
       "rank": 42,
       "evidence": []
     },
     {
-      "path": "src/black/numerics.py",
-      "score": 0.1,
+      "path": "src/blib2to3/pgen2/token.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.01087,
       "rank": 43,
       "evidence": []
     },
     {
-      "path": "src/blackd/__main__.py",
-      "score": 0.1,
+      "path": "tests/data/cases/pyi_overload_groups.py",
+      "score": 0.004348,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.01087,
       "rank": 44,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pytree.py",
-      "score": 0.1,
+      "path": "tests/data/cases/fmtonoff5.py",
+      "score": 0.0038,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.0095,
       "rank": 45,
       "evidence": []
     },
     {
-      "path": "src/blackd/middlewares.py",
-      "score": 0.1,
+      "path": "docs/conf.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 46,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/conv.py",
-      "score": 0.1,
+      "path": "tests/optional.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 47,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/pgen.py",
-      "score": 0.1,
+      "path": "src/black/const.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 48,
       "evidence": []
     },
     {
-      "path": "scripts/make_width_table.py",
-      "score": 0.1,
+      "path": "src/black/schema.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 49,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/parse.py",
-      "score": 0.1,
+      "path": "tests/test_action.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 50,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/token.py",
-      "score": 0.1,
+      "path": "src/black/__main__.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 51,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/driver.py",
-      "score": 0.1,
+      "path": "src/black/numerics.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 52,
       "evidence": []
     },
     {
-      "path": "src/blib2to3/pgen2/__init__.py",
-      "score": 0.1,
+      "path": "src/blib2to3/__init__.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 53,
       "evidence": []
     },
     {
-      "path": "tests/data/cases/fmtpass_imports.py",
-      "score": 0.1,
+      "path": "src/blackd/middlewares.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 54,
       "evidence": []
     },
     {
-      "path": "tests/data/ignore_directory_gitignore_tests/abc.py",
-      "score": 0.1,
+      "path": "src/blib2to3/pgen2/__init__.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 55,
       "evidence": []
     },
     {
-      "path": "tests/data/include_exclude_tests/b/exclude/still_exclude/a.py",
-      "score": 0.1,
+      "path": "src/blib2to3/pgen2/literals.py",
+      "score": 0.002899,
       "seed": 0.0,
-      "graph": 0.25,
+      "graph": 0.007246,
       "rank": 56,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/tokenize.py",
+      "score": 0.002899,
+      "seed": 0.0,
+      "graph": 0.007246,
+      "rank": 57,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pattern_matching_generic.py",
+      "score": 0.002899,
+      "seed": 0.0,
+      "graph": 0.007246,
+      "rank": 58,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/comments2.py",
+      "score": 0.002716,
+      "seed": 0.0,
+      "graph": 0.00679,
+      "rank": 59,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/comments6.py",
+      "score": 0.002716,
+      "seed": 0.0,
+      "graph": 0.00679,
+      "rank": 60,
+      "evidence": []
+    },
+    {
+      "path": "tests/__init__.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 61,
+      "evidence": []
+    },
+    {
+      "path": "tests/conftest.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 62,
+      "evidence": []
+    },
+    {
+      "path": "scripts/release.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 63,
+      "evidence": []
+    },
+    {
+      "path": "src/black/rusty.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 64,
+      "evidence": []
+    },
+    {
+      "path": "src/blackd/__main__.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 65,
+      "evidence": []
+    },
+    {
+      "path": "scripts/release_tests.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 66,
+      "evidence": []
+    },
+    {
+      "path": "src/black/_width_table.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 67,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/conv.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 68,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/pgen.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 69,
+      "evidence": []
+    },
+    {
+      "path": "scripts/make_width_table.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 70,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pep_654.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 71,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_github_action.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 72,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/comments.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 73,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/fmtonoff.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 74,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/function.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 75,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/comments5.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 76,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/python315.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 77,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/nested_stub.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 78,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pep_654_style.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 79,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/import_spacing.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 80,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/fmtpass_imports.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 81,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/tuple_with_stmt.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 82,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/line_ranges_basic.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 83,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/miscellaneous/force_pyi.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 84,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/line_ranges_fmt_off.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 85,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/line_ranges_imports.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 86,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/import_line_collapse.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 87,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/dummy_implementations.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 88,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/line_ranges_formatted/basic.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 89,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pyi_docstring_blank_lines.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 90,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pyi_overload_groups_fmt_skip.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 91,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/module_docstring_after_comment.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 92,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/fmtskip_conditional_in_brackets.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 93,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/preview_fmt_off_class_blank_lines.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 94,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/pyi_docstring_blank_lines_no_preview.py",
+      "score": 0.001449,
+      "seed": 0.0,
+      "graph": 0.003623,
+      "rank": 95,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/preview_comments7.py",
+      "score": 0.001267,
+      "seed": 0.0,
+      "graph": 0.003167,
+      "rank": 96,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/function_trailing_comma.py",
+      "score": 0.001267,
+      "seed": 0.0,
+      "graph": 0.003167,
+      "rank": 97,
       "evidence": []
     }
   ],
   "ranking_used_graph": true,
   "rerank": {
     "ran": false,
-    "reason": "GemmaError: HTTP 500 from gemma-4-26b-a4b-it: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n"
+    "reason": "RuntimeError: rerank skipped for this re-record"
   },
   "final_source": "fusion",
   "final": [
@@ -688,9 +1031,9 @@
     },
     {
       "path": "tests/data/cases/composition.py",
-      "score": 0.437013,
+      "score": 0.278042,
       "seed": 0.437013,
-      "graph": 0.437013,
+      "graph": 0.039585,
       "rank": 2,
       "evidence": [
         {
@@ -704,9 +1047,9 @@
     },
     {
       "path": "tests/data/cases/composition_no_trailing_comma.py",
-      "score": 0.437013,
+      "score": 0.278042,
       "seed": 0.437013,
-      "graph": 0.437013,
+      "graph": 0.039585,
       "rank": 3,
       "evidence": [
         {
@@ -719,27 +1062,1326 @@
       ]
     }
   ],
+  "subgraph": {
+    "nodes": [
+      {
+        "path": "src/black/__init__.py",
+        "depth": 0,
+        "community": "4",
+        "seed": true
+      },
+      {
+        "path": "tests/data/cases/composition.py",
+        "depth": 0,
+        "community": "141",
+        "seed": true
+      },
+      {
+        "path": "tests/data/cases/composition_no_trailing_comma.py",
+        "depth": 0,
+        "community": "85",
+        "seed": true
+      },
+      {
+        "path": "scripts/fuzz.py",
+        "depth": 1,
+        "community": "93",
+        "seed": false
+      },
+      {
+        "path": "scripts/generate_schema.py",
+        "depth": 1,
+        "community": "25",
+        "seed": false
+      },
+      {
+        "path": "src/black/__main__.py",
+        "depth": 1,
+        "community": "4",
+        "seed": false
+      },
+      {
+        "path": "src/black/cache.py",
+        "depth": 1,
+        "community": "14",
+        "seed": false
+      },
+      {
+        "path": "src/black/comments.py",
+        "depth": 1,
+        "community": "6",
+        "seed": false
+      },
+      {
+        "path": "src/black/concurrency.py",
+        "depth": 1,
+        "community": "106",
+        "seed": false
+      },
+      {
+        "path": "src/black/const.py",
+        "depth": 1,
+        "community": "23",
+        "seed": false
+      },
+      {
+        "path": "src/black/files.py",
+        "depth": 1,
+        "community": "18",
+        "seed": false
+      },
+      {
+        "path": "src/black/handle_ipynb_magics.py",
+        "depth": 1,
+        "community": "29",
+        "seed": false
+      },
+      {
+        "path": "src/black/linegen.py",
+        "depth": 1,
+        "community": "1",
+        "seed": false
+      },
+      {
+        "path": "src/black/lines.py",
+        "depth": 1,
+        "community": "1",
+        "seed": false
+      },
+      {
+        "path": "src/black/mode.py",
+        "depth": 1,
+        "community": "1",
+        "seed": false
+      },
+      {
+        "path": "src/black/nodes.py",
+        "depth": 1,
+        "community": "101",
+        "seed": false
+      },
+      {
+        "path": "src/black/output.py",
+        "depth": 1,
+        "community": "22",
+        "seed": false
+      },
+      {
+        "path": "src/black/parsing.py",
+        "depth": 1,
+        "community": "23",
+        "seed": false
+      },
+      {
+        "path": "src/black/ranges.py",
+        "depth": 1,
+        "community": "102",
+        "seed": false
+      },
+      {
+        "path": "src/black/report.py",
+        "depth": 1,
+        "community": "14",
+        "seed": false
+      },
+      {
+        "path": "src/blackd/__init__.py",
+        "depth": 1,
+        "community": "95",
+        "seed": false
+      },
+      {
+        "path": "src/blackd/client.py",
+        "depth": 1,
+        "community": "79",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/__init__.py",
+        "depth": 1,
+        "community": "23",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/__init__.py",
+        "depth": 1,
+        "community": "5",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/grammar.py",
+        "depth": 1,
+        "community": "5",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/token.py",
+        "depth": 1,
+        "community": "5",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pygram.py",
+        "depth": 1,
+        "community": "5",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pytree.py",
+        "depth": 1,
+        "community": "0",
+        "seed": false
+      },
+      {
+        "path": "tests/data/cases/fmtonoff5.py",
+        "depth": 1,
+        "community": "112",
+        "seed": false
+      },
+      {
+        "path": "tests/data/cases/pyi_overload_groups.py",
+        "depth": 1,
+        "community": "134",
+        "seed": false
+      },
+      {
+        "path": "tests/test_black.py",
+        "depth": 1,
+        "community": "136",
+        "seed": false
+      },
+      {
+        "path": "tests/test_blackd.py",
+        "depth": 1,
+        "community": "39",
+        "seed": false
+      },
+      {
+        "path": "tests/test_concurrency_manager_shutdown.py",
+        "depth": 1,
+        "community": "98",
+        "seed": false
+      },
+      {
+        "path": "tests/test_format.py",
+        "depth": 1,
+        "community": "19",
+        "seed": false
+      },
+      {
+        "path": "tests/test_ipynb.py",
+        "depth": 1,
+        "community": "29",
+        "seed": false
+      },
+      {
+        "path": "tests/test_no_ipynb.py",
+        "depth": 1,
+        "community": "19",
+        "seed": false
+      },
+      {
+        "path": "tests/test_schedule_formatting.py",
+        "depth": 1,
+        "community": "89",
+        "seed": false
+      },
+      {
+        "path": "tests/test_tokenize.py",
+        "depth": 1,
+        "community": "17",
+        "seed": false
+      },
+      {
+        "path": "tests/util.py",
+        "depth": 1,
+        "community": "19",
+        "seed": false
+      },
+      {
+        "path": "action/main.py",
+        "depth": 2,
+        "community": "34",
+        "seed": false
+      },
+      {
+        "path": "docs/conf.py",
+        "depth": 2,
+        "community": "45",
+        "seed": false
+      },
+      {
+        "path": "scripts/diff_shades_gha_helper.py",
+        "depth": 2,
+        "community": "25",
+        "seed": false
+      },
+      {
+        "path": "scripts/make_width_table.py",
+        "depth": 2,
+        "community": "44",
+        "seed": false
+      },
+      {
+        "path": "scripts/release.py",
+        "depth": 2,
+        "community": "24",
+        "seed": false
+      },
+      {
+        "path": "scripts/release_tests.py",
+        "depth": 2,
+        "community": "139",
+        "seed": false
+      },
+      {
+        "path": "src/black/_width_table.py",
+        "depth": 2,
+        "community": "5",
+        "seed": false
+      },
+      {
+        "path": "src/black/brackets.py",
+        "depth": 2,
+        "community": "26",
+        "seed": false
+      },
+      {
+        "path": "src/black/debug.py",
+        "depth": 2,
+        "community": "100",
+        "seed": false
+      },
+      {
+        "path": "src/black/numerics.py",
+        "depth": 2,
+        "community": "73",
+        "seed": false
+      },
+      {
+        "path": "src/black/rusty.py",
+        "depth": 2,
+        "community": "3",
+        "seed": false
+      },
+      {
+        "path": "src/black/schema.py",
+        "depth": 2,
+        "community": "25",
+        "seed": false
+      },
+      {
+        "path": "src/black/strings.py",
+        "depth": 2,
+        "community": "1",
+        "seed": false
+      },
+      {
+        "path": "src/black/trans.py",
+        "depth": 2,
+        "community": "1",
+        "seed": false
+      },
+      {
+        "path": "src/blackd/__main__.py",
+        "depth": 2,
+        "community": "95",
+        "seed": false
+      },
+      {
+        "path": "src/blackd/middlewares.py",
+        "depth": 2,
+        "community": "155",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/conv.py",
+        "depth": 2,
+        "community": "24",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/driver.py",
+        "depth": 2,
+        "community": "74",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/literals.py",
+        "depth": 2,
+        "community": "124",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/parse.py",
+        "depth": 2,
+        "community": "125",
+        "seed": false
+      },
+      {
+        "path": "src/blib2to3/pgen2/pgen.py",
+        "depth": 2,
+        "community": "17",
+        "seed": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "scripts/release.py",
+        "target": "src/blib2to3/pgen2/conv.py",
+        "relation": "calls"
+      },
+      {
+        "source": "scripts/release.py",
+        "target": "scripts/release_tests.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/black/nodes.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/nodes.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/black/linegen.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/black/lines.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/cache.py",
+        "target": "tests/test_black.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/cache.py",
+        "target": "src/black/output.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/cache.py",
+        "target": "src/black/concurrency.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/cache.py",
+        "target": "src/black/mode.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/cache.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/output.py",
+        "target": "src/black/report.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/files.py",
+        "target": "src/black/output.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/output.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/output.py",
+        "target": "tests/util.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "src/black/output.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/nodes.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/linegen.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/ranges.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/trans.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/strings.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/numerics.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/blib2to3/pgen2/parse.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/black/nodes.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/lines.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/ranges.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "src/black/nodes.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/comments.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "src/blackd/__init__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/concurrency.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "src/black/report.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/concurrency.py",
+        "target": "tests/test_concurrency_manager_shutdown.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/black/parsing.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/parsing.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "src/black/parsing.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pgen2/parse.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pgen2/driver.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blib2to3/pygram.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/files.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/files.py",
+        "target": "src/black/handle_ipynb_magics.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/files.py",
+        "target": "src/black/report.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/handle_ipynb_magics.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/handle_ipynb_magics.py",
+        "target": "src/black/output.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/files.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/mode.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/test_format.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "src/blackd/__init__.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/util.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/handle_ipynb_magics.py",
+        "target": "tests/test_ipynb.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/black/output.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/handle_ipynb_magics.py",
+        "target": "src/black/report.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/handle_ipynb_magics.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "tests/data/cases/pyi_overload_groups.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "tests/test_black.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/output.py",
+        "target": "tests/test_black.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/lines.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/ranges.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/linegen.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/nodes.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_ipynb.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/report.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/lines.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/black/mode.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/trans.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_no_ipynb.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/data/cases/pyi_overload_groups.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/ranges.py",
+        "target": "tests/util.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/__main__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/black/trans.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/black/strings.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/strings.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/black/trans.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "src/black/trans.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/black/numerics.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/black/strings.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "src/black/strings.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/strings.py",
+        "target": "src/black/trans.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/rusty.py",
+        "target": "src/black/trans.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/black/ranges.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pgen2/grammar.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/black/report.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pgen2/grammar.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/report.py",
+        "target": "tests/test_black.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/strings.py",
+        "target": "tests/test_black.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/black/trans.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blackd/__init__.py",
+        "target": "tests/data/cases/pyi_overload_groups.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/blackd/__init__.py",
+        "target": "src/blackd/middlewares.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blackd/__init__.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/blackd/__init__.py",
+        "target": "tests/test_concurrency_manager_shutdown.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pgen2/parse.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "src/blib2to3/pgen2/parse.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pgen2/pgen.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "uses"
+      },
+      {
+        "source": "tests/test_black.py",
+        "target": "tests/util.py",
+        "relation": "calls"
+      },
+      {
+        "source": "tests/test_blackd.py",
+        "target": "tests/util.py",
+        "relation": "calls"
+      },
+      {
+        "source": "tests/test_format.py",
+        "target": "tests/util.py",
+        "relation": "imports"
+      },
+      {
+        "source": "tests/test_no_ipynb.py",
+        "target": "tests/util.py",
+        "relation": "imports"
+      },
+      {
+        "source": "tests/test_ipynb.py",
+        "target": "tests/util.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/test_black.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/test_ipynb.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/mode.py",
+        "target": "tests/test_concurrency_manager_shutdown.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/black/report.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/report.py",
+        "target": "tests/test_concurrency_manager_shutdown.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blackd/client.py",
+        "target": "tests/test_blackd.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "tests/util.py",
+        "relation": "uses"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/black/nodes.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blackd/client.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_format.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "scripts/fuzz.py",
+        "target": "src/black/__init__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_tokenize.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blackd/__init__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/util.py",
+        "relation": "imports"
+      },
+      {
+        "source": "scripts/generate_schema.py",
+        "target": "src/black/__init__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_black.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/black/const.py",
+        "relation": "re_exports"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_concurrency_manager_shutdown.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_schedule_formatting.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "src/blib2to3/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/__init__.py",
+        "target": "tests/test_blackd.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/comments.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/const.py",
+        "target": "tests/util.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/const.py",
+        "target": "src/black/mode.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/files.py",
+        "target": "tests/test_black.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/linegen.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/lines.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/black/parsing.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/nodes.py",
+        "target": "src/blib2to3/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/parsing.py",
+        "target": "src/blib2to3/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/ranges.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pytree.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blackd/__init__.py",
+        "target": "src/blackd/__main__.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "references"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/brackets.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/debug.py",
+        "target": "tests/test_black.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/_width_table.py",
+        "target": "src/black/strings.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/trans.py",
+        "target": "src/blib2to3/pgen2/__init__.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/black/trans.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pgen2/conv.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/conv.py",
+        "target": "src/blib2to3/pgen2/grammar.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/conv.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pgen2/driver.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/driver.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pgen2/grammar.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "src/blib2to3/pgen2/pgen.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pgen2/parse.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/parse.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pgen2/pgen.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/pgen.py",
+        "target": "src/blib2to3/pgen2/token.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "src/blib2to3/pygram.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/__init__.py",
+        "target": "tests/test_tokenize.py",
+        "relation": "imports_from"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "tests/data/cases/composition.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "src/blib2to3/pgen2/grammar.py",
+        "target": "tests/data/cases/composition_no_trailing_comma.py",
+        "relation": "indirect_call"
+      },
+      {
+        "source": "tests/data/cases/composition.py",
+        "target": "tests/data/cases/fmtonoff5.py",
+        "relation": "calls"
+      },
+      {
+        "source": "tests/data/cases/composition_no_trailing_comma.py",
+        "target": "tests/data/cases/fmtonoff5.py",
+        "relation": "calls"
+      }
+    ],
+    "truncated": true,
+    "total_files": 97
+  },
   "difficulty": {
     "label": "L",
-    "reason": "3 subsystems touched",
+    "reason": "7 subsystems touched",
     "subsystems": [
-      "10",
-      "47",
-      "48"
+      "141",
+      "22",
+      "4",
+      "72",
+      "85",
+      "89",
+      "9"
     ],
-    "neighbours": 36,
+    "neighbours": 34,
     "confident": true
   },
   "blast_radius": {
     "files": [
+      "action/main.py",
+      "docs/conf.py",
+      "scripts/diff_shades_gha_helper.py",
       "scripts/fuzz.py",
       "scripts/generate_schema.py",
       "scripts/make_width_table.py",
+      "scripts/release.py",
+      "scripts/release_tests.py",
       "src/black/__main__.py",
+      "src/black/_width_table.py",
       "src/black/brackets.py",
       "src/black/cache.py",
       "src/black/comments.py",
       "src/black/concurrency.py",
+      "src/black/const.py",
       "src/black/debug.py",
       "src/black/files.py",
       "src/black/handle_ipynb_magics.py",
@@ -748,9 +2390,12 @@
       "src/black/mode.py",
       "src/black/nodes.py",
       "src/black/numerics.py",
+      "src/black/output.py",
       "src/black/parsing.py",
       "src/black/ranges.py",
       "src/black/report.py",
+      "src/black/rusty.py",
+      "src/black/schema.py",
       "src/black/strings.py",
       "src/black/trans.py",
       "src/blackd/__init__.py",
@@ -761,32 +2406,60 @@
       "src/blib2to3/pgen2/__init__.py",
       "src/blib2to3/pgen2/conv.py",
       "src/blib2to3/pgen2/driver.py",
+      "src/blib2to3/pgen2/grammar.py",
+      "src/blib2to3/pgen2/literals.py",
       "src/blib2to3/pgen2/parse.py",
       "src/blib2to3/pgen2/pgen.py",
       "src/blib2to3/pgen2/token.py",
       "src/blib2to3/pgen2/tokenize.py",
+      "src/blib2to3/pygram.py",
       "src/blib2to3/pytree.py",
       "tests/__init__.py",
       "tests/conftest.py",
-      "tests/data/cases/collections.py",
+      "tests/data/cases/comments.py",
+      "tests/data/cases/comments2.py",
+      "tests/data/cases/comments5.py",
+      "tests/data/cases/comments6.py",
+      "tests/data/cases/dummy_implementations.py",
+      "tests/data/cases/fmtonoff.py",
       "tests/data/cases/fmtpass_imports.py",
-      "tests/data/ignore_directory_gitignore_tests/abc.py",
-      "tests/data/include_exclude_tests/b/exclude/still_exclude/a.py",
+      "tests/data/cases/fmtskip_conditional_in_brackets.py",
+      "tests/data/cases/function.py",
+      "tests/data/cases/import_line_collapse.py",
+      "tests/data/cases/import_spacing.py",
+      "tests/data/cases/line_ranges_basic.py",
+      "tests/data/cases/line_ranges_fmt_off.py",
+      "tests/data/cases/line_ranges_imports.py",
+      "tests/data/cases/module_docstring_after_comment.py",
+      "tests/data/cases/nested_stub.py",
+      "tests/data/cases/pattern_matching_generic.py",
+      "tests/data/cases/pep_654.py",
+      "tests/data/cases/pep_654_style.py",
+      "tests/data/cases/preview_fmt_off_class_blank_lines.py",
+      "tests/data/cases/pyi_docstring_blank_lines.py",
+      "tests/data/cases/pyi_docstring_blank_lines_no_preview.py",
+      "tests/data/cases/pyi_overload_groups.py",
+      "tests/data/cases/pyi_overload_groups_fmt_skip.py",
+      "tests/data/cases/python315.py",
+      "tests/data/cases/tuple_with_stmt.py",
+      "tests/data/line_ranges_formatted/basic.py",
+      "tests/data/miscellaneous/force_pyi.py",
+      "tests/optional.py",
       "tests/test_action.py",
       "tests/test_black.py",
       "tests/test_blackd.py",
       "tests/test_concurrency_manager_shutdown.py",
       "tests/test_docs.py",
       "tests/test_format.py",
+      "tests/test_github_action.py",
       "tests/test_ipynb.py",
       "tests/test_no_ipynb.py",
       "tests/test_ranges.py",
       "tests/test_schedule_formatting.py",
       "tests/test_tokenize.py",
-      "tests/test_trans.py",
       "tests/util.py"
     ],
-    "count": 53,
+    "count": 91,
     "available": true,
     "origin": "src/black/__init__.py",
     "hops": 2,
