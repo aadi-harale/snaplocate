@@ -260,12 +260,36 @@ happened to work.
 
 ## DigitalOcean
 
-Two independent ways DigitalOcean carries this project:
+DigitalOcean carries this project in **two independent places**. Either alone
+satisfies the track; both are wired.
 
-**1. The model itself runs on DigitalOcean.** Gemma 4 is open-weight, so the
-same model is served by DigitalOcean Serverless Inference. SnapLocate treats
-the provider as swappable behind one JSON contract — nothing downstream knows
-which is in use:
+### 1. The app runs on a Droplet
+
+One command on a fresh Ubuntu Droplet. Because the backend is stdlib-only
+there is **nothing to `pip install`** — `git` + `python3` + the repo and it
+serves:
+
+```bash
+ssh root@<droplet-ip>
+curl -fsSL https://raw.githubusercontent.com/aadi-harale/snaplocate/main/deploy/droplet.sh -o droplet.sh
+GEMMA_API_KEY=xxx REPO_URL=https://github.com/aadi-harale/snaplocate bash droplet.sh
+```
+
+The script installs git + python3 + ufw and nothing else, **runs the self-test
+and refuses to start the service if it fails**, creates a non-login service
+user, writes the key to `/etc/snaplocate.env` at mode 600, registers a systemd
+unit so it survives the SSH session closing, opens ufw 22 + 8000, then waits
+for `/api/health` and prints the public URL. A failed start dumps the journal
+rather than claiming success.
+
+The cheapest Droplet is enough: the service is one stdlib `http.server`
+process with no database and no build step.
+
+### 2. The model itself runs on DigitalOcean
+
+Gemma 4 is **open-weight**, so DigitalOcean serves the same model through
+Serverless Inference. SnapLocate treats the provider as swappable behind one
+JSON contract — no pipeline stage knows which is in use:
 
 ```bash
 export SNAPLOCATE_PROVIDER=digitalocean
@@ -274,12 +298,21 @@ python3 -m snaplocate.cli locate <issue_url> --repo <r> --graph <g>
 ```
 
 `https://inference.do-ai.run/v1`, OpenAI-compatible, model `gemma-4-31B-it`.
-**This path is written but NOT TESTED** — no DigitalOcean key was available.
-The Google path is verified working; try the DO one before relying on it.
+Implemented in `snaplocate/gemma.py` (`provider()`, `_post()`,
+`_parts_to_openai()`), which translates our `generateContent` parts into
+OpenAI chat blocks and reads either reply shape.
 
-**2. The app runs on a Droplet.** `deploy/droplet.sh` — Ubuntu, systemd, ufw.
-Because the backend is stdlib-only there is nothing to `pip install`: git +
-python3 + the repo and it serves.
+> **This path is written but NOT TESTED** — no DigitalOcean key was available
+> when it was built. The Google path is verified working. Run it once before
+> relying on it.
+
+### Which one to use
+
+| | Droplet | Serverless Inference |
+|---|---|---|
+| What it hosts | the web UI + API | the Gemma 4 model |
+| Needed to demo | yes, for a public URL | no — the Google path works |
+| Status | script ready, **not yet run** | code ready, **untested** |
 
 ---
 
