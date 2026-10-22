@@ -14,6 +14,19 @@ MAX_DOC_FREQ = 40       # UNTUNED. a string in more files than this is boilerpla
 WEIGHT_LEN_CAP = 40     # UNTUNED. length past which a string gets no more weight
 SUSPECT_BOOST = 1.5     # UNTUNED. multiplier for files hit by a suspect region
 
+# Penalty for files that look like tests, fixtures, docs or snapshots.
+#
+# MEASURED on psf/black#2531: the on-screen string "1 file failed to reformat."
+# appears in tests/data/cases/*.py, so two TEST FIXTURES scored 1.000 and
+# outranked src/black/__init__.py, the file that actually prints the error.
+# Sending a first-time contributor to a fixture is the exact failure this tool
+# exists to prevent.
+#
+# A penalty, not an exclusion: a bug genuinely can live in a test, and the eval
+# already refuses test files as gold. This just stops a fixture beating real
+# source on an equal string match.
+NON_SOURCE_PENALTY = 0.25   # UNTUNED
+
 EXACTNESS = {           # UNTUNED. match-quality tiers
     "exact": 1.0,
     "icase": 0.6,
@@ -65,7 +78,13 @@ API_TIMEOUT = 90          # per-socket-operation timeout
 # urlopen's timeout is per socket operation, not total: a measured rerank ran
 # 3127s (52 min) before failing. On a demo clock a prompt failure beats a slow
 # answer, because the cache can rescue a failure but not a hang.
-API_BUDGET = 150          # UNTUNED
+API_BUDGET = 240          # UNTUNED
+
+# Generation time scales with the output cap, so each stage asks for what it
+# needs. 8192 everywhere made the x-ray time out on a real screenshot.
+MAX_TOKENS_DEFAULT = 2048
+MAX_TOKENS_XRAY = 2048    # the regions JSON is short
+MAX_TOKENS_RERANK = 4096  # has to cover the model's markdown preamble too
 API_BUDGET_RERANK = 75    # UNTUNED. rerank is optional; fail fast and degrade
 MAX_REGIONS = 15
 RERANK_SHORTLIST = 10

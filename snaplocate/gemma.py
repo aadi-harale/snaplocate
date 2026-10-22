@@ -123,7 +123,7 @@ def _text_of(resp):
 
 
 def call_model(parts, model=None, key=None, retries=1, timeout=None,
-               budget=None):
+               budget=None, max_tokens=None):
     """One generateContent call. Raises GemmaError on definitive failure."""
     key = key or api_key()
     if not key:
@@ -134,10 +134,14 @@ def call_model(parts, model=None, key=None, retries=1, timeout=None,
         "contents": [{"role": "user", "parts": parts}],
         # Deterministic-ish: we want the same screenshot to give the same
         # regions across runs so the eval is not measuring sampling noise.
-        # Gemma emits a long markdown preamble before the JSON even when told not
-        # to, so the budget has to cover reasoning AND the object, or the JSON
-        # gets truncated and nothing parses.
-        "generationConfig": {"temperature": 0.0, "maxOutputTokens": 8192},
+        # Gemma emits a markdown preamble before the JSON even when told not
+        # to, so the budget must cover reasoning AND the object or the JSON
+        # truncates. But generation time scales with this number -- raising it
+        # globally to 8192 made the x-ray time out on a real screenshot. Each
+        # caller sets what it actually needs.
+        "generationConfig": {"temperature": 0.0,
+                             "maxOutputTokens": max_tokens
+                             or config.MAX_TOKENS_DEFAULT},
     }
 
     # HARD WALL-CLOCK DEADLINE.
@@ -239,7 +243,22 @@ RULES, all of them matter:
 Bug report context (use it to judge what is suspect, do NOT take strings from
 it -- strings must come from the image):
 %s
-"""
+
+OUTPUT FORMAT, AND THIS IS THE PART THAT MATTERS MOST:
+Your entire reply must be the JSON object and nothing else. Begin your reply
+with the character { and end it with the character }. Do NOT think out loud,
+do NOT restate the task, do NOT write "The user wants...", do NOT number your
+reasoning steps, do NOT wrap it in a markdown fence. Any text before the { is
+a failure. Start writing { now."""
+
+# Appended on a retry when the first reply was unparseable. Gemma reasons out
+# loud by default and ignores a polite "return only JSON"; this was measured
+# burning the whole output budget on a preamble, leaving no JSON at all.
+JSON_ONLY_NUDGE = """
+
+PREVIOUS ATTEMPT FAILED: you wrote prose instead of JSON, and the reply was
+cut off before any JSON appeared. Output the raw JSON object ONLY. The first
+character you emit must be {."""
 
 
 def xray(image_bytes, image_mime=None, context="", model=None, key=None):
@@ -256,11 +275,27 @@ def xray(image_bytes, image_mime=None, context="", model=None, key=None):
             "data": base64.b64encode(image_bytes).decode("ascii"),
         }},
     ]
-    text, used = call_model(parts, model=model, key=key)
+    text, used = call_model(parts, model=model, key=key,
+                            max_tokens=config.MAX_TOKENS_XRAY,
+                            budget=config.API_BUDGET)
     data = extract_json(text, want="object")
+
     if not isinstance(data, dict):
-        raise GemmaError("could not parse JSON from model reply: %r"
-                         % (text[:300],))
+        # One hard retry. Measured on gemma-4-26b-a4b-it with a real Flask
+        # screenshot: the model spent the entire output budget narrating
+        # ("The user wants me to analyze a screenshot...") and emitted no JSON
+        # at all. Re-asking with an explicit "you failed, JSON only" is
+        # cheaper and far more reliable than raising the token ceiling, which
+        # just buys a longer preamble and risks the wall-clock budget.
+        retry_parts = [{"text": prompt + JSON_ONLY_NUDGE}] + parts[1:]
+        text, used = call_model(retry_parts, model=model, key=key,
+                                max_tokens=config.MAX_TOKENS_XRAY,
+                                budget=config.API_BUDGET, retries=0)
+        data = extract_json(text, want="object")
+
+    if not isinstance(data, dict):
+        raise GemmaError("could not parse JSON from model reply after a "
+                         "retry: %r" % (text[:300],))
 
     regions = data.get("regions")
     if not isinstance(regions, list):
@@ -371,6 +406,7 @@ def rerank(xray_result, candidates, model=None, key=None):
     )
 
     text, used = call_model([{"text": prompt}], model=model, key=key,
+                            max_tokens=config.MAX_TOKENS_RERANK,
                             budget=config.API_BUDGET_RERANK)
     data = extract_json(text, want="object")
     if not isinstance(data, dict):

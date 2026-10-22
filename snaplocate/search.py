@@ -113,6 +113,25 @@ def match_strings(corpus, regions):
     return per_region, dropped
 
 
+def looks_non_source(rel):
+    """Is this path a test, fixture, doc, lockfile or snapshot?
+
+    Shares its definition with the eval's gold-file rule, so the thing we
+    refuse to call a gold answer is the same thing we down-weight in search.
+    """
+    n = str(rel).replace("\\", "/").lower()
+    base = n.rsplit("/", 1)[-1]
+    if base in {x.lower() for x in config.NON_SOURCE_NAMES}:
+        return True
+    parts = n.split("/")
+    for hint in config.NON_SOURCE_HINTS:
+        if hint in parts:
+            return True
+    return (base.startswith("test_")
+            or base.endswith(("_test.py", ".test.js", ".test.ts",
+                              ".spec.js", ".spec.ts", ".snap")))
+
+
 def minmax(scores, mode=None):
     """Normalise a {key: float} to 0..1.
 
@@ -174,6 +193,13 @@ def seed_scores(corpus, regions):
             if info["suspect"]:
                 suspect_files.add(rel)
 
+    # Test/fixture/doc penalty. See config.NON_SOURCE_PENALTY for why.
+    penalised = set()
+    for rel in list(raw):
+        if looks_non_source(rel):
+            raw[rel] *= config.NON_SOURCE_PENALTY
+            penalised.add(rel)
+
     # Suspect boost.
     #
     # UNDER-SPECIFIED IN THE SPEC: "files matching a suspect=true region get a
@@ -194,6 +220,7 @@ def seed_scores(corpus, regions):
         "regions_used": per_region,
         "regions_dropped": dropped,
         "suspect_boosted": sorted(boosted),
+        "non_source_penalised": sorted(penalised),
         "files_scanned": len(corpus),
     }
 
