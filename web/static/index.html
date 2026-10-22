@@ -190,6 +190,33 @@ h1 .hl{font-style:italic;
 .replay .sub{font:12px/1.6 var(--mono);color:var(--ink-2)}
 .replay .sub b{color:var(--ink)}
 
+/* the verdict: the one line a judge should read */
+.verdict{display:flex;gap:16px;align-items:flex-start;margin:22px 0 4px;
+  padding:19px 21px;border-radius:16px;
+  border:1px solid rgba(217,119,87,.4);
+  background:linear-gradient(105deg,rgba(217,119,87,.15),
+    rgba(157,141,241,.07) 58%,transparent);
+  animation:slideIn .4s cubic-bezier(.2,.8,.3,1) both}
+.verdict .num{flex:none;width:34px;height:34px;border-radius:11px;
+  display:grid;place-items:center;font:700 14px var(--mono);color:#1b0f09;
+  background:linear-gradient(135deg,#e88a66,var(--clay));
+  box-shadow:0 4px 16px rgba(217,119,87,.34)}
+.verdict .vbody{flex:1;min-width:0}
+.verdict .vk{font:700 9.5px var(--mono);letter-spacing:.17em;
+  text-transform:uppercase;color:var(--clay);margin-bottom:7px}
+.verdict .vfile{font:700 19px/1.3 var(--mono);color:var(--ink);
+  word-break:break-all;margin-bottom:8px}
+.verdict .vwhy{font:13.5px/1.68 var(--sans);color:var(--ink-2);
+  margin-bottom:11px}
+.verdict .vwhy code{background:rgba(0,0,0,.3);padding:2px 7px;
+  border-radius:5px;font-size:12.5px;color:var(--ink)}
+.verdict .vmeta{display:flex;gap:9px;flex-wrap:wrap}
+.vpill{display:inline-flex;align-items:center;gap:6px;font:11px var(--mono);
+  padding:5px 11px;border-radius:999px;border:1px solid var(--line-2);
+  color:var(--ink-2);background:rgba(0,0,0,.22)}
+.vpill b{color:var(--ink);font-weight:700}
+@media(max-width:720px){.verdict .vfile{font-size:16px}}
+
 /* layout */
 .cols{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,1fr);
   gap:20px;align-items:start;margin-top:22px}
@@ -264,6 +291,12 @@ h1 .hl{font-style:italic;
 .f::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
   background:transparent;transition:.2s}
 .f.primary::before{background:linear-gradient(180deg,var(--clay),var(--violet))}
+.f.rank1{border-color:rgba(217,119,87,.45);
+  background:linear-gradient(140deg,rgba(217,119,87,.1),var(--panel-2) 62%)}
+.f.rank1 .p{font-size:14.5px}
+.f .tagwin{font:700 8.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--clay);border:1px solid rgba(217,119,87,.45);border-radius:999px;
+  padding:3px 8px;background:rgba(217,119,87,.12);white-space:nowrap}
 .f:hover{border-color:var(--line-2);transform:translateX(3px)}
 .f.hl{border-color:var(--gold);background:rgba(217,164,65,.08);
   box-shadow:0 0 0 1px rgba(217,164,65,.34)}
@@ -275,7 +308,10 @@ h1 .hl{font-style:italic;
 .f.primary .sc{color:var(--clay)}
 .f .why{font:13px/1.68 var(--sans);color:var(--ink-2);margin-top:7px}
 .bars{display:flex;gap:13px;margin-top:11px;flex-wrap:wrap}
-.mb{display:flex;align-items:center;gap:7px;font:10px var(--mono);color:var(--ink-3)}
+.mb{display:flex;align-items:center;gap:7px;font:10.5px var(--mono);
+  color:var(--ink-3)}
+.mb .lbl{min-width:42px}
+.mb .val{min-width:30px;color:var(--ink-2);font-weight:600}
 .sbar{flex:0 0 76px;width:76px;height:4px;min-height:4px;max-height:4px;
   align-self:center;border-radius:4px;background:var(--line);overflow:hidden}
 .sbar i{display:block;height:100%;border-radius:4px;width:0;
@@ -452,6 +488,8 @@ footer b{color:var(--ink-2)}
   <div class="body"><div class="stages" id="stages"></div></div>
 </div>
 
+<div class="verdict hide" id="verdict"></div>
+
 <div class="cols hide" id="out">
   <div>
     <div class="card">
@@ -574,6 +612,7 @@ fetch("/api/health").then(r=>r.json()).then(h=>{
   const rest=cached.filter(c=>featured.indexOf(c)<0);
   if(featured.length){
     $("#demoCards").classList.remove("hide");
+    $("#demoCards").dataset.had="1";
     const grid=$("#dgrid");
     featured.slice(0,2).forEach(c=>{
       const short=(c.issue_url||"").replace(/^https?:\/\/github\.com\//,"");
@@ -659,6 +698,9 @@ $("#f").onsubmit = ev=>{
   ev.preventDefault();
   const url=$("#url").value.trim(); if(!url) return;
   clearNotes(); $("#out").classList.add("hide");
+  $("#verdict").classList.add("hide");
+  const _dc=$("#demoCards"); if(_dc&&_dc.dataset.had) _dc.classList.remove("hide");
+  const _how=document.querySelector(".how"); if(_how) _how.classList.remove("hide");
   $("#go").disabled=true; $("#go").innerHTML='<span class="spin"></span>';
   startStages();
   fetch("/api/locate",{method:"POST",
@@ -738,6 +780,15 @@ function drawGraph(sg){
     "aria-label":"Code graph around the top-ranked files"});
 
   const defs=svgEl("defs",{});
+  // Arrowheads: without direction "A calls B" and "B calls A" look identical,
+  // which is the single thing a reader most needs from a call graph.
+  [["ahead","rgba(217,119,87,.75)"],["ahead2","#3b352c"],
+   ["aheadhot","#d9a441"]].forEach(pair=>{
+    const mk=svgEl("marker",{id:pair[0],viewBox:"0 0 10 10",refX:"9",refY:"5",
+      markerWidth:"5",markerHeight:"5",orient:"auto-start-reverse"});
+    mk.appendChild(svgEl("path",{d:"M0,1 L9,5 L0,9 z",fill:pair[1]}));
+    defs.appendChild(mk);
+  });
   const fg=svgEl("filter",{id:"vglow",x:"-60%",y:"-60%",width:"220%",height:"220%"});
   fg.appendChild(svgEl("feGaussianBlur",{stdDeviation:"3.4",result:"b"}));
   const mg=svgEl("feMerge",{});
@@ -751,8 +802,13 @@ function drawGraph(sg){
     const dx=l.t.x-l.s.x, dy=l.t.y-l.s.y;
     const len=Math.sqrt(dx*dx+dy*dy)||1;
     const cx=mx-dy/len*len*0.12, cy=my+dx/len*len*0.12;
-    const ln=svgEl("path",{d:"M"+l.s.x+","+l.s.y+" Q"+cx+","+cy+" "+l.t.x+","+l.t.y,
-      class:"vz-edge "+(l.rel==="calls"?"calls":"")});
+    // stop the curve short of the target so the arrowhead is not buried
+    const tdx=l.t.x-cx, tdy=l.t.y-cy;
+    const tl=Math.sqrt(tdx*tdx+tdy*tdy)||1;
+    const ex=l.t.x-(tdx/tl)*13, ey=l.t.y-(tdy/tl)*13;
+    const ln=svgEl("path",{d:"M"+l.s.x+","+l.s.y+" Q"+cx+","+cy+" "+ex+","+ey,
+      class:"vz-edge "+(l.rel==="calls"?"calls":""),
+      "marker-end":"url(#"+(l.rel==="calls"?"ahead":"ahead2")+")"});
     ln.dataset.a=l.sp; ln.dataset.b=l.tp;
     const tt=svgEl("title",{});
     tt.textContent=l.sp+"  "+(l.rel||"related")+"  "+l.tp;
@@ -800,7 +856,8 @@ function drawGraph(sg){
   [...seen.entries()].slice(0,5).forEach(entry=>
     chip('<i style="background:'+entry[1]+'"></i>subsystem '+entry[0]));
   if(seen.size>5) chip("+"+(seen.size-5)+" more subsystems");
-  chip("<i></i>calls","flow");
+  chip("<i></i>arrow = A calls B","flow");
+  chip("glowing dot = the answer file");
   chip("bigger dot = more connections");
 }
 
@@ -921,6 +978,7 @@ function render(res){
   requestAnimationFrame(()=>document.querySelectorAll(".sbar i")
     .forEach(i=>{ i.style.width=i.dataset.w; }));
 
+  drawVerdict(res);
   drawGraph(res.subgraph||{nodes:[],edges:[]});
 
   /* assessment */
@@ -989,23 +1047,67 @@ function render(res){
   dt.appendChild(el("div","tiny",
     "Weights are untuned hand-picked values (snaplocate/config.py)."));
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  // The landing cards and the how-it-works strip have done their job once a
+  // result exists; leaving them up pushes the answer below the fold.
+  const dc=$("#demoCards"); if(dc) dc.classList.add("hide");
+  const how=document.querySelector(".how"); if(how) how.classList.add("hide");
+  const ex=$("#examples"); if(ex) ex.classList.add("hide");
+
+  requestAnimationFrame(()=>{
+    const v=$("#verdict");
+    const y=(v&&!v.classList.contains("hide")?v:$("#out"))
+      .getBoundingClientRect().top + window.scrollY - 18;
+    window.scrollTo({top:Math.max(0,y),behavior:"smooth"});
+  });
+}
+
+function drawVerdict(res){
+  // One line, at the top, in plain words: which file, and why.
+  const v=$("#verdict"); v.innerHTML="";
+  const top=(res.final||res.ranked||[])[0];
+  if(!top){ v.classList.add("hide"); return; }
+  v.classList.remove("hide");
+
+  const ev=(top.evidence||[])[0];
+  let why;
+  if(top.reason) why=esc(top.reason);
+  else if(ev) why="The screenshot text <code>"+esc(ev.text).slice(0,46)+
+    "</code> appears in this file.";
+  else why="Reached through the code graph from the files that matched.";
+
+  const d=res.difficulty||{}, b=res.blast_radius||{};
+  const pills=[];
+  if(d.label) pills.push("<b>"+esc(d.label)+"</b> &nbsp;"+
+    (d.label==="S"?"small fix":d.label==="L"?"large fix":"medium fix"));
+  if(b.available) pills.push("<b>"+esc(b.count)+"</b> files could be affected");
+  const rg=(res.xray&&res.xray.regions||[]).length;
+  if(rg) pills.push("<b>"+rg+"</b> strings read off the image");
+  if(res.ranking_used_graph) pills.push("code graph used");
+
+  v.innerHTML='<div class="num">1</div><div class="vbody">'+
+    '<div class="vk">Start here</div>'+
+    '<div class="vfile">'+esc(top.path)+'</div>'+
+    '<div class="vwhy">'+why+'</div>'+
+    '<div class="vmeta">'+pills.map(x=>'<span class="vpill">'+x+'</span>')
+      .join("")+'</div></div>';
 }
 
 function fileRow(f,n,primary){
-  const d=el("div","f"+(primary?" primary":"")); d.dataset.path=f.path;
+  const d=el("div","f"+(primary?" primary":"")+(primary&&n===1?" rank1":""));
+  d.dataset.path=f.path;
   const top=el("div","top");
   top.appendChild(el("span","n",n+"."));
   top.appendChild(el("span","p",f.path));
+  if(primary&&n===1) top.appendChild(el("span","tagwin","start here"));
   top.appendChild(el("span","sc",f.score!=null?f.score.toFixed(3):""));
   d.appendChild(top);
   if(f.reason) d.appendChild(el("div","why",f.reason));
   const bars=el("div","bars");
   const mk=(cls,label,v)=>{ const w=el("div","mb");
-    w.appendChild(el("span",null,label));
+    w.appendChild(el("span","lbl",label));
     const bar=el("div","sbar "+cls); const i=el("i");
     i.dataset.w=Math.round((v||0)*100)+"%"; bar.appendChild(i); w.appendChild(bar);
-    w.appendChild(el("span",null,(v||0).toFixed(2))); bars.appendChild(w); };
+    w.appendChild(el("span","val",(v||0).toFixed(2))); bars.appendChild(w); };
   mk("s","search",f.seed); mk("g","graph",f.graph);
   d.appendChild(bars);
   if(primary&&f.evidence&&f.evidence.length){
