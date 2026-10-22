@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+demo-cache/
+repos/
+graphify-out/
+boxcheck*.html
+eval-*.json
+.env
+*.key

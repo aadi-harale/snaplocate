@@ -1,0 +1,55 @@
+split,issue_url,repo_path,base_commit,gold_files,notes
+# ---------------------------------------------------------------------------
+# HOW TO FILL THIS IN. Read before adding a row; a bad row silently corrupts
+# the only number you are going to put on a slide.
+#
+# Each row is a CLOSED issue that (a) contains a screenshot and (b) is linked
+# to a MERGED pull request that fixed it.
+#
+#   split        tune | test
+#                First 3 rows = tune. Everything else = test.
+#                You may look at tune as often as you like. Look at test ONCE,
+#                at the end. Numbers from tune are NOT results.
+#
+#   issue_url    https://github.com/owner/repo/issues/123
+#
+#   repo_path    local clone of that repo, CHECKED OUT AT base_commit.
+#                Use a separate clone per row if the commits differ.
+#
+#   base_commit  the fix PR's BASE commit (the commit the PR branched from).
+#                  gh pr view <PR> --repo owner/repo --json baseRefOid
+#                Then: git -C <repo_path> checkout <base_commit>
+#                NEVER evaluate at HEAD: the fix is already there and the
+#                result is meaningless. `eval --check` compares the repo's
+#                HEAD against this field and refuses to run on a mismatch.
+#
+#   gold_files   ';'-separated repo-relative paths the fix PR CHANGED,
+#                EXCLUDING tests, docs, lockfiles and snapshots.
+#                  gh pr diff <PR> --repo owner/repo --name-only
+#                If after exclusions nothing is left, the row is unusable --
+#                drop it rather than padding gold_files with a test file.
+#
+#   notes        anything you want; ignored by the harness.
+#
+# VALIDATE BEFORE SPENDING API CALLS:
+#   python3 -m snaplocate.cli eval data/issues.csv --check
+#
+# THEN, and only when you are done tuning:
+#   python3 -m snaplocate.cli eval data/issues.csv --split test \
+#       --ablation --i-am-done-tuning --out eval-test.json
+#
+# Lines starting with # in the issue_url column are skipped.
+# ---------------------------------------------------------------------------
+# Example of the SHAPE (delete this line; it is not a real issue):
+#tune,https://github.com/owner/repo/issues/1,./repos/repo-at-abc123,abc1234,src/app/checkout.ts;src/lib/total.ts,error toast on checkout
+#
+# --- tune split (3 rows) ---------------------------------------------------
+#
+#
+#
+# --- test split (5 rows) ---------------------------------------------------
+#
+#
+#
+#
+#
