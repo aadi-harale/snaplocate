@@ -1,0 +1,8 @@
+# SnapLocate has NO runtime dependencies.
+#
+# This file exists only so Vercel's build step recognises the project as
+# Python. The service uses the standard library alone: urllib for HTTP,
+# http.server for the API, json/ast/re for everything else.
+#
+# graphifyy is a BUILD-TIME tool that writes graph.json; it is deliberately
+# not installed here, because the committed graph is read with the stdlib.
