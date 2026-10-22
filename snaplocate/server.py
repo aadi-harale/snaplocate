@@ -100,7 +100,11 @@ class Handler(BaseHTTPRequestHandler):
                     {"issue_url": m.get("issue_url"),
                      "title": m.get("title"),
                      "recorded_at_human": m.get("recorded_at_human"),
-                     "image_cached": m.get("image_cached")}
+                     "image_cached": m.get("image_cached"),
+                     "image_url": m.get("image_url"),
+                     "model": m.get("model"),
+                     "n_ranked": m.get("n_ranked"),
+                     "n_regions": m.get("n_regions")}
                     for m in entries],
             })
         if u.path == "/api/image":
@@ -120,9 +124,11 @@ class Handler(BaseHTTPRequestHandler):
             return self._err(400, "url required")
         if not url.startswith(("http://", "https://")):
             return self._err(400, "only http(s) URLs")
-        if not _is_allowed(url):
+        cached_ok = cache.load_image(self.cache_dir, url) is not None
+        if not _is_allowed(url) and not cached_ok:
             return self._err(403, "that image URL did not come from an issue "
-                                  "this server fetched")
+                                  "this server fetched, and is not in the "
+                                  "cache")
 
         # Cache first when offline, and as a fallback when the fetch fails --
         # a replayed result whose screenshot will not load is a broken demo.

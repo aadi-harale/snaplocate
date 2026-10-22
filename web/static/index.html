@@ -118,6 +118,41 @@ h1 .hl{font-style:italic;
   color:var(--clay);font:inherit;border-bottom:1px dotted rgba(217,119,87,.45)}
 .examples button:hover{color:#eda07d;border-bottom-color:#eda07d}
 
+/* one-click demo card */
+.demo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;
+  align-items:center;margin-top:22px;padding:16px;border-radius:16px;
+  border:1px solid rgba(217,119,87,.34);
+  background:linear-gradient(110deg,rgba(217,119,87,.11),rgba(157,141,241,.06) 60%,transparent);
+  animation:fadeUp .7s .32s both}
+@media(max-width:720px){.demo{grid-template-columns:minmax(0,1fr)}}
+.demo .thumb{position:relative;width:210px;border-radius:11px;overflow:hidden;
+  border:1px solid var(--line-2);background:#000;line-height:0;flex:none}
+@media(max-width:720px){.demo .thumb{width:100%}}
+.demo .thumb img{display:block;width:100%;height:auto}
+.demo .thumb::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(12,11,10,.72))}
+.demo .thumb .cap{position:absolute;left:0;right:0;bottom:0;z-index:1;
+  padding:6px 9px;font:9.5px/1.3 var(--mono);color:var(--ink-2);
+  letter-spacing:.03em}
+.demo .k{font:700 9.5px var(--mono);letter-spacing:.17em;text-transform:uppercase;
+  color:var(--clay);margin-bottom:7px}
+.demo h3{font:600 17px/1.3 var(--sans);margin:0 0 7px;letter-spacing:-.01em}
+.demo p{font:13px/1.6 var(--sans);color:var(--ink-2);margin:0 0 13px;max-width:44rem}
+.demo p b{color:var(--ink);font-weight:600}
+.demo .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.demo .alt{background:transparent;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:11px;padding:11px 16px;
+  font:500 12.5px var(--mono);cursor:pointer;transition:.18s}
+.demo .alt:hover{border-color:var(--clay);color:var(--ink)}
+.play{display:inline-flex;align-items:center;gap:9px;border:0;border-radius:11px;
+  padding:12px 22px;cursor:pointer;font:600 13.5px var(--sans);color:#1b0f09;
+  background:linear-gradient(135deg,#e88a66,var(--clay) 60%,var(--clay-lo));
+  box-shadow:0 5px 22px rgba(217,119,87,.3);
+  transition:transform .16s,box-shadow .2s,filter .2s}
+.play:hover{transform:translateY(-2px);filter:brightness(1.07);
+  box-shadow:0 9px 30px rgba(217,119,87,.42)}
+.play .tri{font-size:11px}
+
 /* how-it-works strip */
 .how{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));
   gap:10px;margin:26px 0 0;animation:fadeUp .7s .36s both}
@@ -375,6 +410,21 @@ footer b{color:var(--ink-2)}
   <div class="examples hide" id="examples"></div>
 </section>
 
+<section class="demo hide" id="demoCard" aria-label="Run the example">
+  <div class="thumb" id="demoThumb"></div>
+  <div>
+    <div class="k">See it work</div>
+    <h3 id="demoTitle">Run a real issue, end to end</h3>
+    <p id="demoBlurb">One click runs the whole pipeline on a real GitHub issue
+      and its screenshot &mdash; no sign-up, no API key.</p>
+    <div class="row">
+      <button type="button" class="play" id="demoGo"><span class="tri">&#9654;</span>
+        <span id="demoBtnText">Run the example</span></button>
+      <button type="button" class="alt hide" id="demoAlt"></button>
+    </div>
+  </div>
+</section>
+
 <section class="how" aria-label="How it works">
   <div class="step"><div class="k">1 &middot; Fetch</div>
     <div class="t">Read the issue</div>
@@ -513,6 +563,41 @@ fetch("/api/health").then(r=>r.json()).then(h=>{
     (nc?" Cached issues will replay instead.":""));
   else if(!h.graph_exists) note("warn","<b>No graph.json found.</b> Ranking "+
     "will be search-only; call path and blast radius unavailable.");
+
+  // The landing page invites a judge to click ONE button, so it shows the
+  // screenshot that button will analyse rather than describing it.
+  const cached=(h.cached_issues||[]).slice();
+  if(cached.length){
+    const pick=cached.find(c=>/github\.com\/(?!northwind)/.test(c.issue_url||""))||cached[0];
+    const other=cached.find(c=>c!==pick);
+    const card=$("#demoCard"); card.classList.remove("hide");
+    const short=(pick.issue_url||"").replace(/^https?:\/\/github\.com\//,"");
+    $("#demoTitle").textContent=pick.title||"Run a real issue, end to end";
+    $("#demoBlurb").innerHTML="One click runs the whole pipeline on <b>"+
+      esc(short)+"</b> and the screenshot attached to it — "+
+      (pick.n_regions!=null?("<b>"+pick.n_regions+"</b> strings read off the "+
+       "image, "):"")+"ranked files, call graph, difficulty and blast radius. "+
+      "No sign-up, no API key.";
+    $("#demoBtnText").textContent="Run "+short.split("/").slice(0,2).join("/");
+    if(pick.image_url){
+      const t=$("#demoThumb");
+      const im=el("img"); im.src="/api/image?url="+encodeURIComponent(pick.image_url);
+      im.alt="screenshot attached to "+short;
+      im.onerror=()=>{ t.style.display="none"; };
+      t.appendChild(im);
+      const cap=el("div","cap","the screenshot it reads");
+      t.appendChild(cap);
+    }
+    const run=u=>{ $("#url").value=u;
+      $("#f").dispatchEvent(new Event("submit",{cancelable:true})); };
+    $("#demoGo").onclick=()=>run(pick.issue_url);
+    if(other){
+      const b=$("#demoAlt"); b.classList.remove("hide");
+      b.textContent="or "+(other.issue_url||"")
+        .replace(/^https?:\/\/github\.com\//,"");
+      b.onclick=()=>run(other.issue_url);
+    }
+  }
 
   if(nc){
     const box=$("#examples"); box.classList.remove("hide");
