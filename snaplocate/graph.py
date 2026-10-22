@@ -17,10 +17,19 @@ from .search import minmax
 # Candidate keys for the file path on a node. Order is a tie-break hint only --
 # the winner is decided by how path-like the values are, not by this order.
 PATH_KEYS = [
+    # `source_file` is what GRAPHIFY actually uses. Its nodes are SYMBOLS
+    # (functions, classes), so `id` is like "src_payments_paymentdeclined"
+    # and `label` is "charge_card()" -- neither is a path. Verified against a
+    # real graphify 0.9.93 build on 2026-10-22; without this key the sniffer
+    # picked `label` at quality 0.23 and resolved files only by accident.
+    "source_file", "sourceFile",
     "path", "file", "file_path", "filepath", "filename", "file_name",
     "rel_path", "relpath", "relative_path", "source", "src", "location",
     "uri", "url", "module", "name", "label", "id",
 ]
+
+# Below this, the chosen path field is probably not a path at all.
+PATH_QUALITY_WARN = 0.5
 
 # Candidate keys for the community / subsystem / cluster id.
 COMMUNITY_KEYS = [
@@ -165,6 +174,8 @@ class CodeGraph:
         self.n_edges = 0
         self.source = None
         self.builder_note = None  # fallback builders stamp their caveats here
+        self.relations = {}       # relation type -> count (graphify gives these)
+        self.builder = "unknown"  # "graphify" | "snaplocate-fallback" 
         self._resolve_cache = {}
 
     # -- loading ------------------------------------------------------------
@@ -235,10 +246,20 @@ class CodeGraph:
                 a, b = e[0], e[1]
             if a is None or b is None:
                 continue
+            if isinstance(e, dict) and e.get("relation"):
+                g.relations[e["relation"]] = g.relations.get(e["relation"], 0) + 1
             a, b = str(a), str(b)
             g.adj.setdefault(a, set()).add(b)
             g.adj.setdefault(b, set()).add(a)   # undirected for propagation
             g.n_edges += 1
+
+        # Provenance. Graphify stamps typed relations and an _origin on its
+        # nodes; our fallback stamps _snaplocate_caveats. Say which one built
+        # this graph rather than letting a demo imply Graphify was used.
+        if g.builder_note:
+            g.builder = "snaplocate-fallback"
+        elif g.relations or any("_origin" in n for n in nodes):
+            g.builder = "graphify"
 
         g.ok = True
         g.reason = "ok"
@@ -263,36 +284,48 @@ class CodeGraph:
                 s = s[2:]
             return s.lstrip("/")
 
+        # A file maps to a LIST of node ids, not one.
+        #
+        # Graphify's nodes are symbols: checkout.py alone yields finalise(),
+        # TOTAL_LABEL and so on, all sharing one source_file. Mapping a file to
+        # a single node would seed one arbitrary symbol and throw the rest of
+        # the file's connectivity away -- on a real graphify build that is most
+        # of the graph. File-level graphs (our fallback) simply map to a
+        # one-element list, so both shapes work.
         by_norm = {}
         by_base = {}
         for nid, p in self.node_path.items():
             n = norm(p)
-            by_norm.setdefault(n, nid)
+            by_norm.setdefault(n, []).append(nid)
             by_base.setdefault(n.rsplit("/", 1)[-1], []).append(nid)
 
         mapping = {}
-        how = {"exact": 0, "suffix": 0, "basename": 0, "unresolved": 0}
+        how = {"exact": 0, "suffix": 0, "basename": 0, "unresolved": 0,
+               "nodes_mapped": 0}
         for rel in repo_files:
             n = norm(rel)
             if n in by_norm:
-                mapping[rel] = by_norm[n]
+                mapping[rel] = list(by_norm[n])
                 how["exact"] += 1
-                continue
-            hit = None
-            for gn, nid in by_norm.items():
-                if gn.endswith("/" + n) or n.endswith("/" + gn):
-                    hit = nid
-                    break
-            if hit:
-                mapping[rel] = hit
-                how["suffix"] += 1
-                continue
-            cands = by_base.get(n.rsplit("/", 1)[-1], [])
-            if len(cands) == 1:
-                mapping[rel] = cands[0]
-                how["basename"] += 1
-                continue
-            how["unresolved"] += 1
+            else:
+                hit = []
+                for gn, nids in by_norm.items():
+                    if gn.endswith("/" + n) or n.endswith("/" + gn):
+                        hit.extend(nids)
+                if hit:
+                    mapping[rel] = hit
+                    how["suffix"] += 1
+                else:
+                    cands = by_base.get(n.rsplit("/", 1)[-1], [])
+                    # only trust a basename match when it is unambiguous
+                    uniq_files = {norm(self.node_path[c]) for c in cands}
+                    if cands and len(uniq_files) == 1:
+                        mapping[rel] = list(cands)
+                        how["basename"] += 1
+                    else:
+                        how["unresolved"] += 1
+                        continue
+            how["nodes_mapped"] += len(mapping[rel])
 
         result = (mapping, how)
         self._resolve_cache[cache_key] = result
@@ -311,17 +344,19 @@ class CodeGraph:
                         "note": "no repo file resolved to a graph node"}
 
         rev = {}
-        for rel, nid in mapping.items():
-            rev.setdefault(nid, []).append(rel)
+        for rel, nids in mapping.items():
+            for nid in nids:
+                rev.setdefault(nid, []).append(rel)
 
         mass = {}
         for rel, s in seed_by_file.items():
             if s <= 0 or rel not in mapping:
                 continue
-            start = mapping[rel]
+            starts = mapping[rel]
             # BFS by hop so each node is charged at its SHORTEST distance only.
-            seen = {start}
-            frontier = [start]
+            # All of the file's symbol nodes start at hop 0 together.
+            seen = set(starts)
+            frontier = list(starts)
             for hop in range(0, config.GRAPH_MAX_HOPS + 1):
                 if hop > 0:
                     nxt = []
@@ -357,11 +392,12 @@ class CodeGraph:
         if rel not in mapping:
             return []
         rev = {}
-        for r, nid in mapping.items():
-            rev.setdefault(nid, []).append(r)
-        start = mapping[rel]
-        seen = {start}
-        frontier = [start]
+        for r, nids in mapping.items():
+            for nid in nids:
+                rev.setdefault(nid, []).append(r)
+        starts = mapping[rel]
+        seen = set(starts)
+        frontier = list(starts)
         for _ in range(hops):
             nxt = []
             for nid in frontier:
@@ -374,8 +410,6 @@ class CodeGraph:
                 break
         out = set()
         for nid in seen:
-            if nid == start:
-                continue
             out.update(rev.get(nid, ()))
         out.discard(rel)
         return sorted(out)
@@ -387,9 +421,9 @@ class CodeGraph:
         mapping, _ = self.resolve(repo_files)
         out = set()
         for rel in rels:
-            nid = mapping.get(rel)
-            if nid and nid in self.community:
-                out.add(self.community[nid])
+            for nid in mapping.get(rel, ()):
+                if nid in self.community:
+                    out.add(self.community[nid])
         return sorted(out)
 
     def doctor_report(self):
@@ -407,4 +441,8 @@ class CodeGraph:
                           "target": self.edge_keys[1]},
             "sample_paths": list(self.node_path.values())[:5],
             "builder_note": self.builder_note,
+            "builder": self.builder,
+            "relations": dict(sorted(self.relations.items(),
+                                     key=lambda kv: -kv[1])),
+            "communities": len(set(self.community.values())) if self.community else 0,
         }

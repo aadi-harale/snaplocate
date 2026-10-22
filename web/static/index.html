@@ -318,7 +318,7 @@ footer b{color:var(--dim)}
   </div>
   <div class="tags">
     <span class="tag">Gemma&nbsp;4 vision</span>
-    <span class="tag">Graphify graph</span>
+    <span class="tag" id="tagGraph">Graphify graph</span>
     <span class="tag">stdlib only</span>
     <span class="tag off hide" id="tagOffline">offline demo mode</span>
     <span class="tag off hide" id="tagCacheFirst">cache-first</span>
@@ -692,13 +692,28 @@ function render(res){
    ["files scanned",(res.search&&res.search.files_scanned)||0],
    ["graph",g.ok?(g.nodes+" nodes / "+g.edges+" edges · field '"+g.path_key+
      "'"):"not used"],
+   ["built by", g.ok?(g.builder==="graphify"?"Graphify (real)":
+     (g.builder||"unknown")):"—"],
+   ["edge types", (g.relations&&Object.keys(g.relations).length)
+     ? Object.entries(g.relations).map(([k,v])=>k+" "+v).join(" · ") : "—"],
+   ["communities", g.communities||"—"],
    ["resolved",g.propagation?(g.propagation.resolved+" files mapped"):"—"],
    ["timing",JSON.stringify(res.timing||{})]
   ].forEach(([k,v])=>{ const tr=el("tr"); tr.appendChild(el("td",null,k));
     tr.appendChild(el("td",null,String(v))); t2.appendChild(tr); });
   dt.appendChild(t2);
+  const tg=$("#tagGraph");
+  if(g.builder==="graphify"){
+    tg.textContent="Graphify · "+(g.edges||0)+" edges";
+    tg.classList.add("live");
+  } else if(g.ok){
+    tg.textContent="fallback graph (not Graphify)";
+    tg.classList.add("off");
+  }
   if(g.builder_note) dt.appendChild(el("div","tiny",
-    "Graph came from the FALLBACK builder, not Graphify."));
+    "Graph came from the FALLBACK builder, not Graphify. Edges are "+
+    "file-level imports found partly by regex, and communities are "+
+    "connected components, not Leiden."));
   dt.appendChild(el("div","tiny",
     "Weights are untuned hand-picked values (snaplocate/config.py)."));
 

@@ -29,6 +29,13 @@ def cmd_doctor(args):
     print("loaded       : %s" % ("yes" if rep["ok"] else "NO"))
     print("reason       : %s" % rep["reason"])
     print("nodes / edges: %s / %s" % (rep["nodes"], rep["edges"]))
+    print("built by     : %s%s" % (rep.get("builder"),
+          "  <-- the real Graphify" if rep.get("builder") == "graphify" else ""))
+    if rep.get("relations"):
+        print("edge relations: %s" % ", ".join(
+            "%s=%d" % kv for kv in list(rep["relations"].items())[:6]))
+    if rep.get("communities"):
+        print("communities  : %d" % rep["communities"])
     print("")
     print("SNIFFED SCHEMA (nothing is hard-coded; these were chosen by")
     print("scoring each candidate key on how path-like its values are)")
