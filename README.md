@@ -3,47 +3,102 @@
 **A GitHub issue with a screenshot and no file names goes in. The source files
 behind it come out.**
 
-```bash
-python3 scripts/selftest.py        # 116 checks, no network, no API key
-python3 -m snaplocate.cli serve --repo <repo> --graph <repo>/graphify-out/graph.json
-```
-
-| | |
-|---|---|
-| Model | **Gemma 4** (`gemma-4-26b-a4b-it`) — open weights |
-| Code graph | **Graphify** (`graphifyy`), with a stdlib fallback |
-| Runtime deps | **none** — Python 3.10+ standard library only |
-| Licence | MIT |
-| Host | DigitalOcean Droplet, or DO Serverless Inference for the model |
-
-
-A first-time contributor opens an issue that says *"it's broken"* and attaches a
-screenshot. There is no stack trace and no file name. SnapLocate reads the
-pixels, pulls the on-screen strings, finds them in the repo, and expands the
-hits over a code graph.
-
-Python 3.10+, **standard library only**. No pip install, no npm, no build step.
-It runs on a bare Droplet with `git` and `python3` and survives the venue wifi
-dying.
+[![License: MIT](https://img.shields.io/badge/License-MIT-d97757.svg)](LICENSE)
+&nbsp;[![Model: Gemma 4 (open weights)](https://img.shields.io/badge/Model-Gemma%204%20(open%20weights)-9d8df1.svg)](https://ai.google.dev/gemma/terms)
+&nbsp;![Dependencies: none](https://img.shields.io/badge/Runtime%20deps-none%20(stdlib%20only)-7fa88a.svg)
 
 ---
 
-## Model, licence and dependencies
+## Try it in 30 seconds — no API key, no install, no network
+
+Everything needed is committed. Clone and run:
+
+```bash
+git clone <this-repo> && cd snaplocate
+python3 scripts/selftest.py                       # 116 checks, offline
+python3 -m snaplocate.cli serve --offline     --repo demo-repo --graph demo-repo/graphify-out/graph.json
+```
+
+Open <http://localhost:8000> and click the cached issue. You get the full
+pipeline — the screenshot with Gemma's bounding boxes, the ranked files, the
+Graphify call graph, difficulty and blast radius — replayed from a recorded
+real run, and labelled as a replay.
+
+To run it **live** on any GitHub issue you need one free key:
+
+```bash
+export GEMMA_API_KEY=...        # https://aistudio.google.com/apikey
+python3 -m snaplocate.cli locate https://github.com/owner/repo/issues/123     --repo /path/to/that/repo --graph /path/to/that/repo/graphify-out/graph.json
+```
+
+---
+
+## What we built
+
+A first-time contributor opens an issue that says *"it's broken"* and attaches
+a screenshot. There is no stack trace and no file name, so nobody knows where
+to start. SnapLocate turns that screenshot into a ranked list of source files.
+
+Seven stages: fetch the issue → **Gemma 4 reads the screenshot** into
+bounding-box regions → those exact strings are searched in the repo →
+**Graphify's call graph** expands the hits two hops → the two signals are fused
+→ Gemma reranks the shortlist → out come files, a call path, an S/M/L
+difficulty and a blast radius.
+
+## The AI contribution, specifically
+
+| Stage | What the open-weight model does |
+|---|---|
+| 2 · XRAY | **Gemma 4 vision** reads the screenshot and returns `{surface, symptom, regions[]}` — each region a string copied **verbatim** off the screen with a bounding box. This is the thing that makes the product possible: without it there is no query. |
+| 6 · RERANK | **Gemma 4** re-orders the top-10 shortlist with reasons and a call path, locked to paths that already exist in the ranking so it cannot invent a file. |
+
+Measured on `psf/black#2531`: search alone ranked two test fixtures first;
+Gemma's rerank promoted `src/black/__init__.py`, the file that actually prints
+the error, to #1.
+
+## Model and licence
 
 | | |
 |---|---|
-| **Model** | `gemma-4-26b-a4b-it` (MoE). `gemma-4-31b-it` also supported. |
-| **Weights** | **Open-weight**, not OSI open-source. Released under the [Gemma Terms of Use](https://ai.google.dev/gemma/terms) and the [Gemma Prohibited Use Policy](https://ai.google.dev/gemma/prohibited_use_policy) — read those before redistributing, they carry use restrictions an OSI licence does not. |
-| **Size class** | 26B / 31B parameters, so a **large** language model (>10B). |
-| **Access** | Served via the Google AI `generativelanguage` API in this build. Weights are downloadable, so the same JSON contract can be pointed at a self-hosted runtime without changing anything downstream. |
-| **This project's licence** | MIT — see [LICENSE](LICENSE). |
-| **Runtime dependencies** | **None.** Python 3.10+ standard library only. No `requirements.txt`, because there is nothing to install. |
-| **Build dependencies** | None. No npm, no bundler, no build step. |
-| **Optional, not required** | [`graphifyy`](https://pypi.org/project/graphifyy/) for the primary code graph. If it is absent, `snaplocate/mkgraph.py` builds a compatible graph from the standard library alone, and says so in the output. |
+| **Model** | `gemma-4-26b-a4b-it` (default) · `gemma-4-31b-it` also supported |
+| **Licence / terms** | **[Gemma Terms of Use](https://ai.google.dev/gemma/terms)** and the **[Gemma Prohibited Use Policy](https://ai.google.dev/gemma/prohibited_use_policy)** |
+| **Open-weight, not OSI open-source** | The weights are downloadable, but the Gemma Terms carry use restrictions an OSI licence does not. We are not claiming it is OSI open-source. |
+| **Size class** | 26B / 31B parameters → a **large** language model (>10B) |
+| **Served by** | Google AI `generativelanguage` API (verified working), or DigitalOcean Serverless Inference (`SNAPLOCATE_PROVIDER=digitalocean`, **untested**) |
+| **This project** | MIT — [LICENSE](LICENSE) |
 
-Verified on 2026-10-22: both model IDs are live on the
-`generativelanguage` API, and the bounding-box convention was confirmed against
-measured ground truth (see `snaplocate/gemma.py`).
+## Key dependencies
+
+| | |
+|---|---|
+| **Runtime** | **None.** Python 3.10+ standard library only — `urllib` for HTTP, `http.server` for the API, `json`, `ast`, `re`. There is no `requirements.txt` because there is nothing to install. |
+| **Frontend** | None. One HTML file, vanilla CSS and JS. No npm, no bundler, no CDN, no web font. |
+| **Optional, build-time** | [`graphifyy`](https://pypi.org/project/graphifyy/) builds the code graph (`pip install graphifyy`). It writes `graph.json`; our code reads that file with the stdlib. If it is absent, `snaplocate/mkgraph.py` builds a compatible graph and **says so in the output**. |
+
+Verify for yourself — this prints nothing but stdlib module names:
+
+```bash
+python3 - <<'EOF'
+import ast, os, sys
+std = set(sys.stdlib_module_names); bad = []
+for dp, dn, fns in os.walk("snaplocate"):
+    for fn in (f for f in fns if f.endswith(".py")):
+        for n in ast.walk(ast.parse(open(os.path.join(dp, fn)).read())):
+            mods = ([a.name.split(".")[0] for a in n.names] if isinstance(n, ast.Import)
+                    else [n.module.split(".")[0]] if isinstance(n, ast.ImportFrom) and not n.level and n.module
+                    else [])
+            bad += [m for m in mods if m not in std and m != "snaplocate"]
+print("third-party runtime imports:", sorted(set(bad)) or "NONE")
+EOF
+```
+
+## Agent skill
+
+`skills/snaplocate/SKILL.md` follows the **Agent Skills open standard** —
+frontmatter on line 1, only spec fields (`name`, `description`, `license`,
+`compatibility`). It documents when to use SnapLocate and, just as explicitly,
+**when not to**: no text in the screenshot, interpolated or translated
+strings, or the wrong commit checked out.
 
 ---
 

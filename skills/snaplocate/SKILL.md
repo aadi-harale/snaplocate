@@ -1,6 +1,8 @@
 ---
 name: snaplocate
 description: Locate the source files behind a screenshot in a GitHub issue. Use when an issue has a screenshot of a UI problem and no file names, and you need a starting point for where in the repo to look. Reads the screenshot with Gemma 4 vision, greps the on-screen strings against the repo, and expands the hits over a code graph.
+license: MIT
+compatibility: Requires Python 3.10+ and a local clone of the repo being searched. Uses only the Python standard library; graphifyy is optional.
 ---
 
 # SnapLocate

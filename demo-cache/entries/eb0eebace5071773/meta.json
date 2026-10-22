@@ -1,0 +1,14 @@
+{
+  "issue_url": "https://github.com/northwind/shop/issues/128",
+  "recorded_at": 1792663254.9711761,
+  "recorded_at_human": "2026-10-22 15:30:54",
+  "title": "Can't check out - weird error",
+  "model": "gemma-4-26b-a4b-it",
+  "variant": "snaplocate",
+  "used_graph": true,
+  "n_ranked": 3,
+  "n_regions": 2,
+  "image_key": "2b2717d98355700b",
+  "image_url": "https://user-images.githubusercontent.com/0/snaplocate-checkout.jpg",
+  "degraded_when_recorded": []
+}

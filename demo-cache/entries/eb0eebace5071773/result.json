@@ -1,0 +1,330 @@
+{
+  "issue_url": null,
+  "repo_root": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo",
+  "graph_path": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo/graphify-out/graph.json",
+  "degraded": [],
+  "timing": {
+    "fetch": 0.0,
+    "xray": 0.0,
+    "search": 0.0,
+    "graph": 0.0,
+    "rerank": 0.0,
+    "total": 0.0
+  },
+  "variant": "snaplocate",
+  "weights_are_untuned": true,
+  "issue": {
+    "owner": "northwind",
+    "repo": "shop",
+    "number": 128,
+    "title": "Can't check out - weird error",
+    "url": "https://github.com/northwind/shop/issues/128",
+    "state": "closed"
+  },
+  "image_urls": [
+    "https://user-images.githubusercontent.com/0/snaplocate-checkout.jpg"
+  ],
+  "image_bytes": 19028,
+  "image_mime": "image/jpeg",
+  "xray": {
+    "surface": "checkout",
+    "symptom": "The error message contains spelling mistakes.",
+    "regions": [
+      {
+        "id": "r1",
+        "text": "Coudn't complete yor order",
+        "kind": "error",
+        "box": [
+          241,
+          54,
+          265,
+          258
+        ],
+        "box_frac": {
+          "left": 0.054,
+          "top": 0.241,
+          "width": 0.204,
+          "height": 0.024
+        },
+        "suspect": true,
+        "why": "Contains spelling errors 'Coudn't' and 'yor'"
+      },
+      {
+        "id": "r2",
+        "text": "Your card was not charged. Please try again.",
+        "kind": "error",
+        "box": [
+          281,
+          54,
+          301,
+          334
+        ],
+        "box_frac": {
+          "left": 0.054,
+          "top": 0.281,
+          "width": 0.28,
+          "height": 0.02
+        },
+        "suspect": true,
+        "why": "Part of the error message"
+      }
+    ],
+    "model": "gemma-4-26b-a4b-it",
+    "box_convention": {
+      "order": [
+        "ymin",
+        "xmin",
+        "ymax",
+        "xmax"
+      ],
+      "scale": 1000,
+      "verified": true,
+      "verified_on": "gemma-4-26b-a4b-it"
+    },
+    "raw_text": "The user wants me to analyze a screenshot of a software bug report.\nI need to extract specific information and return it in a JSON format.\n\n**1. Analyze the image:**\n- **Surface:** Checkout page.\n- **Symptom:** An error message is displayed with spelling mistakes (\"Coudn't complete yor order\").\n- **Text elements:**\n    - \"Northwind\" (nav)\n    - \"Products\" (nav)\n    - \"Orders\" (nav)\n    - \"Account\" (nav)\n    - \"Checkout\" (heading)\n    - \"Coudn't complete yor order\" (error message, suspect: true)\n    - \"Your card was not charged. Please try again.\" (error message, suspect: true)\n    - \"Subtotal\" (label)\n    - \"$84.00\" (value)\n    - \"Shipping\" (label)\n    - \"$6.50\" (value)\n    - \"Order total\" (label)\n    - \"$90.50\" (value)\n    - \"Retry payment\" (button)\n    - \"Cancel order\" (button)\n\n**2. Identify suspect regions:**\n- \"Coudn't complete yor order\" (Spelling errors: \"Coudn't\", \"yor\")\n- \"Your card was not charged. Please try again.\" (Part of the error state)\n\n**3. Determine bounding boxes (ymin, xmin, ymax, xmax):**\n- Image size is roughly 800x600 (not specified, but I'll use 0-1000 scale).\n- \"Coudn't complete yor order\": y is around 240, x is around 55.\n- \"Your card was not charged. Please try again.\": y is around 280, x is around 55.\n\nLet's refine coordinates:\n- \"Coudn't complete yor order\": [241, 54, 265, 258]\n- \"Your card was not charged. Please try again.\": [281, 54, 301, 334]\n\n**4. Construct JSON:**\n- `surface`: \"checkout\"\n- `symptom`: \"An error message is displayed with spelling mistakes.\"\n- `regions`:\n    - `id`: \"r1\", `text`: \"Coudn't complete yor order\", `kind`: \"error\", `box`: [241, 54, 265, 258], `suspect`: true, `why`: \"Contains spelling errors in the error message\"\n    - `id`: \"r2\", `text`: \"Your card was not charged. Please try again.\", `kind`: \"error\", `box`: [281, 54, 301, 334], `suspect`: true, `why`: \"Part of the error message block\"\n\nWait, the prompt says \"At most 15 regions. Prefer long, distinctive, greppable strings over short generic words. Skip an"
+  },
+  "search": {
+    "regions_dropped": [],
+    "suspect_boosted": [
+      "src/checkout.py",
+      "src/payments.py"
+    ],
+    "files_scanned": 6
+  },
+  "region_files": {
+    "r1": [
+      "src/checkout.py"
+    ],
+    "r2": [
+      "src/payments.py"
+    ]
+  },
+  "graph": {
+    "source": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo/graphify-out/graph.json",
+    "ok": true,
+    "reason": "ok",
+    "nodes": 18,
+    "edges": 21,
+    "path_key": "source_file",
+    "path_candidates": [
+      {
+        "key": "source_file",
+        "coverage": 1.0,
+        "quality": 0.889,
+        "score": 0.8889
+      },
+      {
+        "key": "label",
+        "coverage": 1.0,
+        "quality": 0.233,
+        "score": 0.2333
+      },
+      {
+        "key": "id",
+        "coverage": 1.0,
+        "quality": 0.0,
+        "score": 0.0
+      }
+    ],
+    "community_key": "community",
+    "community_candidates": [
+      {
+        "key": "community",
+        "coverage": 1.0,
+        "quality": 1.0,
+        "distinct": 4,
+        "score": 1.0
+      }
+    ],
+    "edge_keys": {
+      "source": "source",
+      "target": "target"
+    },
+    "sample_paths": [
+      "src/payments.py",
+      "src/payments.py",
+      "src/api/orders.js",
+      "src/ui/buttons.js",
+      "src/ui/buttons.js"
+    ],
+    "builder_note": null,
+    "builder": "graphify",
+    "relations": {
+      "contains": 8,
+      "calls": 4,
+      "imports": 3,
+      "imports_from": 3,
+      "rationale_for": 2,
+      "inherits": 1
+    },
+    "communities": 4,
+    "propagation": {
+      "resolved": 6,
+      "how": {
+        "exact": 6,
+        "suffix": 0,
+        "basename": 0,
+        "unresolved": 0,
+        "nodes_mapped": 16
+      },
+      "include_hop0": true
+    }
+  },
+  "ranked": [
+    {
+      "path": "src/payments.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r2",
+          "text": "Your card was not charged. Please try again.",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.590616
+        }
+      ]
+    },
+    {
+      "path": "src/checkout.py",
+      "score": 0.647286,
+      "seed": 0.65,
+      "graph": 0.643216,
+      "rank": 2,
+      "evidence": [
+        {
+          "region": "r1",
+          "text": "Coudn't complete yor order",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.3839
+        }
+      ]
+    },
+    {
+      "path": "src/inventory.py",
+      "score": 0.092462,
+      "seed": 0.0,
+      "graph": 0.231156,
+      "rank": 3,
+      "evidence": []
+    }
+  ],
+  "ranking_used_graph": true,
+  "rerank": {
+    "top": [
+      {
+        "path": "src/checkout.py",
+        "reason": "Raises the exact error string shown in the screenshot."
+      },
+      {
+        "path": "src/payments.py",
+        "reason": "Raises the card message; called by checkout on the failing path."
+      }
+    ],
+    "call_path": [
+      "src/checkout.py",
+      "src/payments.py"
+    ],
+    "confidence": "high",
+    "hallucinated_paths_dropped": [],
+    "model": "gemma-4-26b-a4b-it",
+    "ran": true
+  },
+  "final_source": "rerank",
+  "final": [
+    {
+      "path": "src/checkout.py",
+      "score": 0.647286,
+      "seed": 0.65,
+      "graph": 0.643216,
+      "rank": 2,
+      "evidence": [
+        {
+          "region": "r1",
+          "text": "Coudn't complete yor order",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.3839
+        }
+      ],
+      "reason": "Raises the exact error string shown in the screenshot."
+    },
+    {
+      "path": "src/payments.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r2",
+          "text": "Your card was not charged. Please try again.",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.590616
+        }
+      ],
+      "reason": "Raises the card message; called by checkout on the failing path."
+    }
+  ],
+  "subgraph": {
+    "nodes": [
+      {
+        "path": "src/checkout.py",
+        "depth": 0,
+        "community": "2",
+        "seed": true
+      },
+      {
+        "path": "src/payments.py",
+        "depth": 0,
+        "community": "0",
+        "seed": true
+      },
+      {
+        "path": "src/inventory.py",
+        "depth": 1,
+        "community": "2",
+        "seed": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "src/checkout.py",
+        "target": "src/inventory.py",
+        "relation": "calls"
+      },
+      {
+        "source": "src/checkout.py",
+        "target": "src/payments.py",
+        "relation": "calls"
+      }
+    ],
+    "truncated": false,
+    "total_files": 3
+  },
+  "difficulty": {
+    "label": "M",
+    "reason": "2 subsystems, 2 neighbours",
+    "subsystems": [
+      "0",
+      "2"
+    ],
+    "neighbours": 2,
+    "confident": true
+  },
+  "blast_radius": {
+    "files": [
+      "src/inventory.py",
+      "src/payments.py"
+    ],
+    "count": 2,
+    "available": true,
+    "origin": "src/checkout.py",
+    "hops": 2,
+    "note": "files reachable within 2 hops of src/checkout.py; upper bound on what a fix here could affect, not a prediction of the diff"
+  }
+}

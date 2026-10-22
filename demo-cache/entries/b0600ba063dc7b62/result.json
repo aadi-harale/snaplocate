@@ -1,0 +1,795 @@
+{
+  "issue_url": "https://github.com/psf/black/issues/2531",
+  "repo_root": "C:/sl/black",
+  "graph_path": "C:/sl/black/graphify-out/graph.json",
+  "degraded": [
+    "graph came from the FALLBACK builder, not Graphify",
+    "rerank failed (GemmaError): showing the fused ranking instead"
+  ],
+  "timing": {
+    "fetch": 0.863,
+    "xray": 89.588,
+    "search": 0.091,
+    "graph": 0.0,
+    "rerank": 3.744,
+    "total": 94.809
+  },
+  "variant": "snaplocate",
+  "weights_are_untuned": true,
+  "issue": {
+    "owner": "psf",
+    "repo": "black",
+    "number": 2531,
+    "title": "Cannot parse Python 3.10 keywords Eg: match",
+    "url": "https://github.com/psf/black/issues/2531",
+    "state": "closed"
+  },
+  "image_urls": [
+    "https://user-images.githubusercontent.com/4533119/136465771-59933ab9-0a8e-4fcb-a8ea-6c40ef78639f.png"
+  ],
+  "image_bytes": 128452,
+  "image_mime": "image/png",
+  "xray": {
+    "surface": "terminal",
+    "symptom": "Black fails to parse Python 3.10 match statements.",
+    "regions": [
+      {
+        "id": "r1",
+        "text": "error: cannot format sample.py: Cannot parse: 2:10:     match option:",
+        "kind": "error",
+        "box": [
+          867,
+          7,
+          895,
+          924
+        ],
+        "box_frac": {
+          "left": 0.007,
+          "top": 0.867,
+          "width": 0.917,
+          "height": 0.028
+        },
+        "suspect": true,
+        "why": "This is the primary error message indicating a parsing failure."
+      },
+      {
+        "id": "r2",
+        "text": "Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5",
+        "kind": "error",
+        "box": [
+          913,
+          7,
+          941,
+          203
+        ],
+        "box_frac": {
+          "left": 0.007,
+          "top": 0.913,
+          "width": 0.196,
+          "height": 0.028
+        },
+        "suspect": true,
+        "why": "This is part of the error output from Black."
+      },
+      {
+        "id": "r3",
+        "text": "1 file failed to reformat.",
+        "kind": "error",
+        "box": [
+          960,
+          7,
+          988,
+          351
+        ],
+        "box_frac": {
+          "left": 0.007,
+          "top": 0.96,
+          "width": 0.344,
+          "height": 0.028
+        },
+        "suspect": true,
+        "why": "This indicates the command failed to process the file."
+      }
+    ],
+    "model": "gemma-4-26b-a4b-it",
+    "box_convention": {
+      "order": [
+        "ymin",
+        "xmin",
+        "ymax",
+        "xmax"
+      ],
+      "scale": 1000,
+      "verified": true,
+      "verified_on": "gemma-4-26b-a4b-it"
+    },
+    "raw_text": "The user wants a JSON object describing a bug report screenshot.\n\n- `surface`: Terminal/Command line.\n- `symptom`: Black formatter fails to parse Python 3.10 `match` statement.\n- `regions`:\n    - `error: cannot format sample.py: Cannot parse: 2:10:     match option:` (This is the core error message).\n    - `Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5` (This is part of the error output).\n    - `1 file failed to reformat.` (Summary of the error).\n\nLet's refine the regions.\nThe bug report says: `error: cannot format sample.py: Cannot parse: 2:10:     match option:`\nIn the image: `error: cannot format sample.py: Cannot parse: 2:10:     match option:` (red text).\n`Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5` (white text with emojis).\n`1 file failed to reformat.` (red text).\n\nCoordinates (approximate):\n- `error: cannot format sample.py: Cannot parse: 2:10:     match option:`: y is around 860-890.\n- `Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`: y is around 910-940.\n- `1 file failed to reformat.`: y is around 960-990.\n\nLet's look closer at the image.\nThe error message is: `error: cannot format sample.py: Cannot parse: 2:10:     match option:`\nThe line below is: `Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`\nThe line below that is: `1 file failed to reformat.`\n\nWait, the prompt says \"Return ONLY a JSON object...\".\n\nLet's get the exact text.\n`error: cannot format sample.py: Cannot parse: 2:10:     match option:`\n`Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`\n`1 file failed to reformat.`\n\nWait, the emojis in the image are: `\ud83d\udca5 \ud83d\udc94 \ud83d\udca5`.\nThe text in the image is:\n`error: cannot format sample.py: Cannot parse: 2:10:     match option:`\n`Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`\n`1 file failed to reformat.`\n\nLet's check the text in the image for `Oh no!`.\nIt says `Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`.\n\nLet's check the coordinates.\nImage size is roughly 1000x1000 (normalized).\n`error: cannot format sample.py: Cannot parse: 2:10:     match option:`: [867, 7, 895, 924]\n`Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5`: [913, 7, 941, 203]\n`1 file failed to reformat.`: [960, 7, 988, 351]\n\nWait, the prompt says \"At most 15 regions. Prefer long, distinctive, greppable strings over short generic words. Skip anything under 4 charac"
+  },
+  "search": {
+    "regions_dropped": [
+      {
+        "id": "r1",
+        "text": "error: cannot format sample.py: Cannot parse: 2:10:     match option:",
+        "reason": "no_match"
+      }
+    ],
+    "suspect_boosted": [
+      "src/black/__init__.py",
+      "tests/data/cases/composition.py",
+      "tests/data/cases/composition_no_trailing_comma.py"
+    ],
+    "files_scanned": 375
+  },
+  "region_files": {
+    "r2": [
+      "src/black/__init__.py"
+    ],
+    "r3": [
+      "tests/data/cases/composition.py",
+      "tests/data/cases/composition_no_trailing_comma.py"
+    ]
+  },
+  "graph": {
+    "source": "C:/sl/black/graphify-out/graph.json",
+    "ok": true,
+    "reason": "ok",
+    "nodes": 375,
+    "edges": 119,
+    "path_key": "id",
+    "path_candidates": [
+      {
+        "key": "id",
+        "coverage": 1.0,
+        "quality": 1.0,
+        "score": 1.0
+      },
+      {
+        "key": "path",
+        "coverage": 1.0,
+        "quality": 1.0,
+        "score": 1.0
+      }
+    ],
+    "community_key": "community",
+    "community_candidates": [
+      {
+        "key": "community",
+        "coverage": 1.0,
+        "quality": 1.0,
+        "distinct": 317,
+        "score": 1.0
+      }
+    ],
+    "edge_keys": {
+      "source": "source",
+      "target": "target"
+    },
+    "sample_paths": [
+      "action/main.py",
+      "docs/conf.py",
+      "profiling/dict_big.py",
+      "profiling/list_big.py",
+      "profiling/list_huge.py"
+    ],
+    "builder_note": [
+      "FALLBACK BUILDER, NOT GRAPHIFY. Built by snaplocate/mkgraph.py.",
+      "Edges are FILE-LEVEL IMPORTS, not call edges. 'a -> b' means a imports b, not that a calls into b.",
+      "JS/TS/JSX/TSX imports are found by REGEX, not parsed. String literals and commented-out imports can produce phantom edges; dynamic import() with a computed path is missed entirely.",
+      "Communities are CONNECTED COMPONENTS, not Leiden. A single hub file can collapse the whole repo into one component, which makes the S/M/L subsystem count much less meaningful.",
+      "Only files with an extension in config.SOURCE_EXTS are nodes."
+    ],
+    "propagation": {
+      "resolved": 375,
+      "how": {
+        "exact": 375,
+        "suffix": 0,
+        "basename": 0,
+        "unresolved": 0
+      },
+      "include_hop0": true
+    }
+  },
+  "ranked": [
+    {
+      "path": "src/black/__init__.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r2",
+          "text": "Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.177185
+        }
+      ]
+    },
+    {
+      "path": "tests/data/cases/composition.py",
+      "score": 0.437013,
+      "seed": 0.437013,
+      "graph": 0.437013,
+      "rank": 2,
+      "evidence": [
+        {
+          "region": "r3",
+          "text": "1 file failed to reformat.",
+          "exactness": 1.0,
+          "df": 2,
+          "contribution": 0.309728
+        }
+      ]
+    },
+    {
+      "path": "tests/data/cases/composition_no_trailing_comma.py",
+      "score": 0.437013,
+      "seed": 0.437013,
+      "graph": 0.437013,
+      "rank": 3,
+      "evidence": [
+        {
+          "region": "r3",
+          "text": "1 file failed to reformat.",
+          "exactness": 1.0,
+          "df": 2,
+          "contribution": 0.309728
+        }
+      ]
+    },
+    {
+      "path": "tests/util.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 4,
+      "evidence": []
+    },
+    {
+      "path": "scripts/fuzz.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 5,
+      "evidence": []
+    },
+    {
+      "path": "src/black/mode.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 6,
+      "evidence": []
+    },
+    {
+      "path": "src/black/cache.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 7,
+      "evidence": []
+    },
+    {
+      "path": "src/black/debug.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 8,
+      "evidence": []
+    },
+    {
+      "path": "src/black/files.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 9,
+      "evidence": []
+    },
+    {
+      "path": "src/black/lines.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 10,
+      "evidence": []
+    },
+    {
+      "path": "src/black/nodes.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 11,
+      "evidence": []
+    },
+    {
+      "path": "src/black/trans.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 12,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_docs.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 13,
+      "evidence": []
+    },
+    {
+      "path": "src/black/ranges.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 14,
+      "evidence": []
+    },
+    {
+      "path": "src/black/report.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 15,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_black.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 16,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_ipynb.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 17,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_trans.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 18,
+      "evidence": []
+    },
+    {
+      "path": "src/black/linegen.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 19,
+      "evidence": []
+    },
+    {
+      "path": "src/black/parsing.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 20,
+      "evidence": []
+    },
+    {
+      "path": "src/black/strings.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 21,
+      "evidence": []
+    },
+    {
+      "path": "src/blackd/client.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 22,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_blackd.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 23,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_format.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 24,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_ranges.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 25,
+      "evidence": []
+    },
+    {
+      "path": "src/black/__main__.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 26,
+      "evidence": []
+    },
+    {
+      "path": "src/black/brackets.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 27,
+      "evidence": []
+    },
+    {
+      "path": "src/black/comments.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 28,
+      "evidence": []
+    },
+    {
+      "path": "src/blackd/__init__.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 29,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_no_ipynb.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 30,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_tokenize.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 31,
+      "evidence": []
+    },
+    {
+      "path": "src/black/concurrency.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 32,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/__init__.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 33,
+      "evidence": []
+    },
+    {
+      "path": "scripts/generate_schema.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 34,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/tokenize.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 35,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/collections.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 36,
+      "evidence": []
+    },
+    {
+      "path": "src/black/handle_ipynb_magics.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 37,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_schedule_formatting.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 38,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_concurrency_manager_shutdown.py",
+      "score": 0.2,
+      "seed": 0.0,
+      "graph": 0.5,
+      "rank": 39,
+      "evidence": []
+    },
+    {
+      "path": "tests/__init__.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 40,
+      "evidence": []
+    },
+    {
+      "path": "tests/conftest.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 41,
+      "evidence": []
+    },
+    {
+      "path": "tests/test_action.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 42,
+      "evidence": []
+    },
+    {
+      "path": "src/black/numerics.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 43,
+      "evidence": []
+    },
+    {
+      "path": "src/blackd/__main__.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 44,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pytree.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 45,
+      "evidence": []
+    },
+    {
+      "path": "src/blackd/middlewares.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 46,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/conv.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 47,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/pgen.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 48,
+      "evidence": []
+    },
+    {
+      "path": "scripts/make_width_table.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 49,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/parse.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 50,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/token.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 51,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/driver.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 52,
+      "evidence": []
+    },
+    {
+      "path": "src/blib2to3/pgen2/__init__.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 53,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/cases/fmtpass_imports.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 54,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/ignore_directory_gitignore_tests/abc.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 55,
+      "evidence": []
+    },
+    {
+      "path": "tests/data/include_exclude_tests/b/exclude/still_exclude/a.py",
+      "score": 0.1,
+      "seed": 0.0,
+      "graph": 0.25,
+      "rank": 56,
+      "evidence": []
+    }
+  ],
+  "ranking_used_graph": true,
+  "rerank": {
+    "ran": false,
+    "reason": "GemmaError: HTTP 500 from gemma-4-26b-a4b-it: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n"
+  },
+  "final_source": "fusion",
+  "final": [
+    {
+      "path": "src/black/__init__.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r2",
+          "text": "Oh no! \ud83d\udca5 \ud83d\udc94 \ud83d\udca5",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.177185
+        }
+      ]
+    },
+    {
+      "path": "tests/data/cases/composition.py",
+      "score": 0.437013,
+      "seed": 0.437013,
+      "graph": 0.437013,
+      "rank": 2,
+      "evidence": [
+        {
+          "region": "r3",
+          "text": "1 file failed to reformat.",
+          "exactness": 1.0,
+          "df": 2,
+          "contribution": 0.309728
+        }
+      ]
+    },
+    {
+      "path": "tests/data/cases/composition_no_trailing_comma.py",
+      "score": 0.437013,
+      "seed": 0.437013,
+      "graph": 0.437013,
+      "rank": 3,
+      "evidence": [
+        {
+          "region": "r3",
+          "text": "1 file failed to reformat.",
+          "exactness": 1.0,
+          "df": 2,
+          "contribution": 0.309728
+        }
+      ]
+    }
+  ],
+  "difficulty": {
+    "label": "L",
+    "reason": "3 subsystems touched",
+    "subsystems": [
+      "10",
+      "47",
+      "48"
+    ],
+    "neighbours": 36,
+    "confident": true
+  },
+  "blast_radius": {
+    "files": [
+      "scripts/fuzz.py",
+      "scripts/generate_schema.py",
+      "scripts/make_width_table.py",
+      "src/black/__main__.py",
+      "src/black/brackets.py",
+      "src/black/cache.py",
+      "src/black/comments.py",
+      "src/black/concurrency.py",
+      "src/black/debug.py",
+      "src/black/files.py",
+      "src/black/handle_ipynb_magics.py",
+      "src/black/linegen.py",
+      "src/black/lines.py",
+      "src/black/mode.py",
+      "src/black/nodes.py",
+      "src/black/numerics.py",
+      "src/black/parsing.py",
+      "src/black/ranges.py",
+      "src/black/report.py",
+      "src/black/strings.py",
+      "src/black/trans.py",
+      "src/blackd/__init__.py",
+      "src/blackd/__main__.py",
+      "src/blackd/client.py",
+      "src/blackd/middlewares.py",
+      "src/blib2to3/__init__.py",
+      "src/blib2to3/pgen2/__init__.py",
+      "src/blib2to3/pgen2/conv.py",
+      "src/blib2to3/pgen2/driver.py",
+      "src/blib2to3/pgen2/parse.py",
+      "src/blib2to3/pgen2/pgen.py",
+      "src/blib2to3/pgen2/token.py",
+      "src/blib2to3/pgen2/tokenize.py",
+      "src/blib2to3/pytree.py",
+      "tests/__init__.py",
+      "tests/conftest.py",
+      "tests/data/cases/collections.py",
+      "tests/data/cases/fmtpass_imports.py",
+      "tests/data/ignore_directory_gitignore_tests/abc.py",
+      "tests/data/include_exclude_tests/b/exclude/still_exclude/a.py",
+      "tests/test_action.py",
+      "tests/test_black.py",
+      "tests/test_blackd.py",
+      "tests/test_concurrency_manager_shutdown.py",
+      "tests/test_docs.py",
+      "tests/test_format.py",
+      "tests/test_ipynb.py",
+      "tests/test_no_ipynb.py",
+      "tests/test_ranges.py",
+      "tests/test_schedule_formatting.py",
+      "tests/test_tokenize.py",
+      "tests/test_trans.py",
+      "tests/util.py"
+    ],
+    "count": 53,
+    "available": true,
+    "origin": "src/black/__init__.py",
+    "hops": 2,
+    "note": "files reachable within 2 hops of src/black/__init__.py; upper bound on what a fix here could affect, not a prediction of the diff"
+  }
+}

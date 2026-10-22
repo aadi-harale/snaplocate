@@ -1,9 +1,19 @@
 __pycache__/
 *.pyc
-demo-cache/
 repos/
-graphify-out/
 boxcheck*.html
 eval-*.json
 .env
 *.key
+
+# The project's own graph (a build artifact of SnapLocate scanning itself).
+/graphify-out/
+
+# Graphify's internal extraction cache: large, regenerable, and its paths
+# exceed the Windows limit. Only graph.json is needed to run the demo.
+graphify-out/cache/
+demo-cache/*.tmp
+
+# demo-repo/graphify-out/graph.json and demo-cache/ ARE committed on purpose:
+# together they let anyone clone and run the full UI offline with no API key.
+# See "Try it with no API key" in the README.
