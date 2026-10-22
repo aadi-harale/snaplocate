@@ -1,15 +1,15 @@
 {
   "issue_url": null,
   "repo_root": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo",
-  "graph_path": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo/graphify-out/graph.json",
+  "graph_path": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo\\graphify-out\\graph.json",
   "degraded": [],
   "timing": {
     "fetch": 0.0,
     "xray": 0.0,
-    "search": 0.0,
+    "search": 0.006,
     "graph": 0.0,
     "rerank": 0.0,
-    "total": 0.0
+    "total": 0.006
   },
   "variant": "snaplocate",
   "weights_are_untuned": true,
@@ -89,7 +89,7 @@
       "src/checkout.py",
       "src/payments.py"
     ],
-    "files_scanned": 6
+    "files_scanned": 12
   },
   "region_files": {
     "r1": [
@@ -100,24 +100,24 @@
     ]
   },
   "graph": {
-    "source": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo/graphify-out/graph.json",
+    "source": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo\\graphify-out\\graph.json",
     "ok": true,
     "reason": "ok",
-    "nodes": 18,
-    "edges": 21,
+    "nodes": 43,
+    "edges": 59,
     "path_key": "source_file",
     "path_candidates": [
       {
         "key": "source_file",
         "coverage": 1.0,
-        "quality": 0.889,
-        "score": 0.8889
+        "quality": 0.86,
+        "score": 0.8605
       },
       {
         "key": "label",
         "coverage": 1.0,
-        "quality": 0.233,
-        "score": 0.2333
+        "quality": 0.195,
+        "score": 0.1953
       },
       {
         "key": "id",
@@ -132,7 +132,7 @@
         "key": "community",
         "coverage": 1.0,
         "quality": 1.0,
-        "distinct": 4,
+        "distinct": 9,
         "score": 1.0
       }
     ],
@@ -142,30 +142,31 @@
     },
     "sample_paths": [
       "src/payments.py",
-      "src/payments.py",
-      "src/api/orders.js",
-      "src/ui/buttons.js",
-      "src/ui/buttons.js"
+      "src/core/db.py",
+      "src/api/reports.js",
+      "src/ui/reports_page.js",
+      "src/ui/reports_page.js"
     ],
     "builder_note": null,
     "builder": "graphify",
     "relations": {
-      "contains": 8,
-      "calls": 4,
-      "imports": 3,
-      "imports_from": 3,
-      "rationale_for": 2,
-      "inherits": 1
+      "contains": 19,
+      "calls": 12,
+      "imports": 12,
+      "imports_from": 7,
+      "rationale_for": 6,
+      "inherits": 2,
+      "uses": 1
     },
-    "communities": 4,
+    "communities": 9,
     "propagation": {
-      "resolved": 6,
+      "resolved": 12,
       "how": {
-        "exact": 6,
+        "exact": 12,
         "suffix": 0,
         "basename": 0,
         "unresolved": 0,
-        "nodes_mapped": 16
+        "nodes_mapped": 37
       },
       "include_hop0": true
     }
@@ -275,19 +276,19 @@
       {
         "path": "src/checkout.py",
         "depth": 0,
-        "community": "2",
+        "community": "4",
         "seed": true
       },
       {
         "path": "src/payments.py",
         "depth": 0,
-        "community": "0",
+        "community": "1",
         "seed": true
       },
       {
         "path": "src/inventory.py",
         "depth": 1,
-        "community": "2",
+        "community": "4",
         "seed": false
       }
     ],
@@ -310,8 +311,8 @@
     "label": "M",
     "reason": "2 subsystems, 2 neighbours",
     "subsystems": [
-      "0",
-      "2"
+      "1",
+      "4"
     ],
     "neighbours": 2,
     "confident": true

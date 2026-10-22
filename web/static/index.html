@@ -78,7 +78,7 @@ h1{font:400 clamp(34px,5.6vw,60px)/1.05 var(--serif);letter-spacing:-.025em;
 h1 .hl{font-style:italic;
   background:linear-gradient(96deg,var(--clay) 10%,#edaa86 50%,var(--violet));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{font:400 16.5px/1.7 var(--sans);color:var(--ink-2);margin:0 0 30px;
+.lede{font:400 16.5px/1.82 var(--sans);color:var(--ink-2);margin:0 0 30px;
   max-width:40rem;animation:fadeUp .7s .2s both}
 .lede b{color:var(--ink);font-weight:600}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -118,57 +118,53 @@ h1 .hl{font-style:italic;
   color:var(--clay);font:inherit;border-bottom:1px dotted rgba(217,119,87,.45)}
 .examples button:hover{color:#eda07d;border-bottom-color:#eda07d}
 
-/* one-click demo card */
-.demo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;
-  align-items:center;margin-top:22px;padding:16px;border-radius:16px;
-  border:1px solid rgba(217,119,87,.34);
-  background:linear-gradient(110deg,rgba(217,119,87,.11),rgba(157,141,241,.06) 60%,transparent);
-  animation:fadeUp .7s .32s both}
-@media(max-width:720px){.demo{grid-template-columns:minmax(0,1fr)}}
-.demo .thumb{position:relative;width:210px;border-radius:11px;overflow:hidden;
-  border:1px solid var(--line-2);background:#000;line-height:0;flex:none}
-@media(max-width:720px){.demo .thumb{width:100%}}
-.demo .thumb img{display:block;width:100%;height:auto}
-.demo .thumb::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 55%,rgba(12,11,10,.72))}
-.demo .thumb .cap{position:absolute;left:0;right:0;bottom:0;z-index:1;
-  padding:6px 9px;font:9.5px/1.3 var(--mono);color:var(--ink-2);
-  letter-spacing:.03em}
-.demo .k{font:700 9.5px var(--mono);letter-spacing:.17em;text-transform:uppercase;
-  color:var(--clay);margin-bottom:7px}
-.demo h3{font:600 17px/1.3 var(--sans);margin:0 0 7px;letter-spacing:-.01em}
-.demo p{font:13px/1.6 var(--sans);color:var(--ink-2);margin:0 0 13px;max-width:44rem}
-.demo p b{color:var(--ink);font-weight:600}
-.demo .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.demo .alt{background:transparent;color:var(--ink-2);
-  border:1px solid var(--line-2);border-radius:11px;padding:11px 16px;
-  font:500 12.5px var(--mono);cursor:pointer;transition:.18s}
-.demo .alt:hover{border-color:var(--clay);color:var(--ink)}
-.play{display:inline-flex;align-items:center;gap:9px;border:0;border-radius:11px;
-  padding:12px 22px;cursor:pointer;font:600 13.5px var(--sans);color:#1b0f09;
-  background:linear-gradient(135deg,#e88a66,var(--clay) 60%,var(--clay-lo));
-  box-shadow:0 5px 22px rgba(217,119,87,.3);
-  transition:transform .16s,box-shadow .2s,filter .2s}
-.play:hover{transform:translateY(-2px);filter:brightness(1.07);
-  box-shadow:0 9px 30px rgba(217,119,87,.42)}
-.play .tri{font-size:11px}
+/* two featured screenshot demos */
+.demos{margin-top:26px;animation:fadeUp .7s .32s both}
+.demos .lead{font:600 9.5px var(--mono);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--clay);margin-bottom:13px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:14px}
+.dcard{display:flex;flex-direction:column;border-radius:15px;overflow:hidden;
+  border:1px solid rgba(217,119,87,.3);cursor:pointer;text-align:left;
+  padding:0;background:linear-gradient(165deg,rgba(217,119,87,.1),
+    rgba(157,141,241,.05) 55%,transparent);
+  transition:transform .2s,border-color .2s,box-shadow .2s}
+.dcard:hover{transform:translateY(-3px);border-color:var(--clay);
+  box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.dcard .shotwrap{position:relative;line-height:0;background:#000;
+  border-bottom:1px solid var(--line)}
+.dcard .shotwrap img{display:block;width:100%;height:auto}
+.dcard .shotwrap::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 48%,rgba(12,11,10,.8))}
+.dcard .tagline{position:absolute;left:0;right:0;bottom:0;z-index:1;
+  padding:9px 13px;font:10px/1.4 var(--mono);color:var(--ink-2);
+  letter-spacing:.04em}
+.dcard .body{padding:15px 16px 17px}
+.dcard h3{font:600 15px/1.45 var(--sans);margin:0 0 9px;letter-spacing:-.01em}
+.dcard .meta{font:11px/1.7 var(--mono);color:var(--ink-3);margin-bottom:13px}
+.dcard .meta b{color:var(--ink-2);font-weight:600}
+.dcard .cta{display:inline-flex;align-items:center;gap:8px;
+  font:600 12.5px var(--sans);color:var(--clay)}
+.dcard .cta .tri{font-size:10px}
+.dcard:hover .cta{color:#eda07d}
 
-/* how-it-works strip */
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));
-  gap:10px;margin:26px 0 0;animation:fadeUp .7s .36s both}
+/* how-it-works strip *//* how-it-works strip */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;margin:30px 0 0;animation:fadeUp .7s .36s both}
 .step{background:linear-gradient(180deg,var(--panel),rgba(19,17,15,.6));
-  border:1px solid var(--line);border-radius:13px;padding:13px 14px;
+  border:1px solid var(--line);border-radius:13px;padding:15px 16px;
   position:relative;overflow:hidden}
 .step .k{font:700 9.5px var(--mono);letter-spacing:.14em;color:var(--clay);
   text-transform:uppercase;margin-bottom:7px}
 .step .t{font:600 13px var(--sans);color:var(--ink);margin-bottom:4px}
-.step .d{font:11.5px/1.5 var(--mono);color:var(--ink-3)}
+.step .d{font:11.5px/1.65 var(--mono);color:var(--ink-3)}
 .step::after{content:"";position:absolute;right:-14px;top:0;bottom:0;width:28px;
   background:radial-gradient(circle at 0 50%,rgba(217,119,87,.12),transparent 70%)}
 
 /* plain-language help on section headers */
-.what{font:12px/1.6 var(--sans);color:var(--ink-3);padding:0 16px 13px;
-  border-bottom:1px solid var(--line);margin-bottom:2px}
+.what{font:12.5px/1.8 var(--sans);color:var(--ink-3);
+  padding:12px 18px 14px;border-bottom:1px solid var(--line);
+  margin-bottom:2px;letter-spacing:.004em}
 .what b{color:var(--ink-2);font-weight:600}
 
 /* banners */
@@ -209,7 +205,7 @@ h1 .hl{font-style:italic;
 .card>h2 .n{margin-left:auto;font-weight:400;letter-spacing:.03em;
   text-transform:none;min-width:0;overflow:hidden;text-overflow:ellipsis;
   white-space:nowrap}
-.card>.body{padding:16px}
+.card>.body{padding:18px}
 
 /* screenshot */
 .shot{position:relative;display:block;line-height:0;background:#070605;overflow:hidden}
@@ -245,14 +241,14 @@ h1 .hl{font-style:italic;
 .rlist::-webkit-scrollbar{width:10px}
 .rlist::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:10px;
   border:3px solid var(--panel)}
-.r{display:flex;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;
+.r{display:flex;gap:11px;padding:11px 12px;border-radius:10px;cursor:pointer;
   align-items:flex-start;border:1px solid transparent;transition:.16s}
 .r:hover{background:var(--panel-2);border-color:var(--line)}
 .r.on{background:rgba(217,164,65,.11);border-color:rgba(217,164,65,.42)}
 .r .id{font:700 10px var(--mono);color:var(--ink-3);min-width:22px;padding-top:3px}
 .r.on .id{color:var(--gold)}
 .r .tx{flex:1;min-width:0}
-.r .q{font:13px var(--mono);color:var(--ink);word-break:break-word}
+.r .q{font:13px/1.6 var(--mono);color:var(--ink);word-break:break-word}
 .r .nf{font:11px var(--mono);color:var(--ink-3);margin-top:3px}
 .r .nf.none{color:rgba(224,108,92,.8)}
 .badge{font:600 9.5px var(--mono);padding:3px 8px;border-radius:999px;
@@ -262,7 +258,7 @@ h1 .hl{font-style:italic;
   background:rgba(224,108,92,.1)}
 
 /* files */
-.f{padding:14px 15px;border:1px solid var(--line);border-radius:13px;
+.f{padding:16px 17px;border:1px solid var(--line);border-radius:13px;
   margin-bottom:10px;background:var(--panel-2);transition:.2s;position:relative;
   overflow:hidden;cursor:pointer}
 .f::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
@@ -277,7 +273,7 @@ h1 .hl{font-style:italic;
 .f .p{font:600 13.5px var(--mono);color:var(--ink);word-break:break-all;flex:1}
 .f .sc{font:700 12.5px var(--mono);color:var(--ink-3);white-space:nowrap}
 .f.primary .sc{color:var(--clay)}
-.f .why{font:13px/1.55 var(--sans);color:var(--ink-2);margin-top:7px}
+.f .why{font:13px/1.68 var(--sans);color:var(--ink-2);margin-top:7px}
 .bars{display:flex;gap:13px;margin-top:11px;flex-wrap:wrap}
 .mb{display:flex;align-items:center;gap:7px;font:10px var(--mono);color:var(--ink-3)}
 .sbar{flex:0 0 76px;width:76px;height:4px;min-height:4px;max-height:4px;
@@ -296,26 +292,42 @@ h1 .hl{font-style:italic;
 
 /* graph viz */
 .viz{position:relative;overflow:hidden;background:
-  radial-gradient(70% 70% at 50% 45%,rgba(157,141,241,.07),transparent 70%),#0a0908}
+  radial-gradient(90% 90% at 50% 42%,rgba(157,141,241,.10),transparent 72%),
+  radial-gradient(60% 60% at 18% 88%,rgba(217,119,87,.07),transparent 70%),#090807}
 .viz svg{display:block;width:100%;height:auto}
-.vz-edge{stroke:var(--line-2);stroke-width:1.2;transition:.25s}
-.vz-edge.calls{stroke:rgba(217,119,87,.7);stroke-width:1.8}
-.vz-edge.hot{stroke:var(--gold);stroke-width:2.4}
-.vz-node circle{transition:stroke .25s,stroke-width .25s;cursor:pointer}
-.vz-node .halo{fill:none;stroke-width:1.5;opacity:.35}
-.vz-node text{font:9.5px var(--mono);fill:var(--ink-2);pointer-events:none;
-  text-anchor:middle}
-.vz-node.seed text{fill:var(--ink);font-weight:700}
-.vz-node.hl circle.core{stroke:var(--gold);stroke-width:2.5}
+.viz.focused .vz-node{opacity:.18}
+.viz.focused .vz-node.near{opacity:1}
+.viz.focused .vz-edge{opacity:.06}
+.viz.focused .vz-edge.near{opacity:1}
+.vz-edge{fill:none;stroke:var(--line-2);stroke-width:1.1;opacity:.72;
+  transition:opacity .25s,stroke .25s,stroke-width .25s}
+.vz-edge.calls{stroke:rgba(217,119,87,.55);stroke-width:1.5;
+  stroke-dasharray:5 7;animation:flow 2.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.vz-edge.hot{stroke:var(--gold);stroke-width:2.6;opacity:1;animation:none}
+.vz-node{cursor:pointer;transition:opacity .25s}
+.vz-node circle.core{transition:stroke .25s,stroke-width .25s}
+.vz-node .ring{fill:none;stroke-width:1.2;opacity:.3}
+.vz-node .pulse{fill:none;stroke-width:1.5;opacity:.5;
+  animation:ping 3s cubic-bezier(.2,.6,.4,1) infinite}
+@keyframes ping{0%{r:13;opacity:.5}70%,100%{r:32;opacity:0}}
+.vz-node text{font:9.5px var(--mono);fill:var(--ink-3);pointer-events:none;
+  text-anchor:middle;transition:fill .25s}
+.vz-node.seed text{fill:var(--ink);font-weight:700;font-size:10.5px}
+.vz-node.hl circle.core{stroke:var(--gold);stroke-width:2.6}
 .vz-node.hl text{fill:var(--gold)}
-.vzlegend{display:flex;gap:14px;flex-wrap:wrap;padding:11px 16px;
-  font:10.5px var(--mono);color:var(--ink-3);border-top:1px solid var(--line)}
-.vzlegend i{display:inline-block;width:9px;height:9px;border-radius:50%;
-  margin-right:5px;vertical-align:-1px}
+.vzlegend{display:flex;gap:8px;flex-wrap:wrap;padding:13px 18px;
+  font:10.5px var(--mono);color:var(--ink-3);border-top:1px solid var(--line);
+  align-items:center}
+.lgchip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;
+  border:1px solid var(--line);border-radius:999px}
+.lgchip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.lgchip.flow i{width:17px;height:2px;border-radius:2px;
+  background:repeating-linear-gradient(90deg,var(--clay) 0 4px,transparent 4px 7px)}
 
 /* assessment */
 .kv{width:100%;border-collapse:collapse;font:12.5px var(--mono)}
-.kv td{padding:7px 0;vertical-align:top;border-bottom:1px solid rgba(255,255,255,.035)}
+.kv td{padding:9px 0;vertical-align:top;border-bottom:1px solid rgba(255,255,255,.035)}
 .kv tr:last-child td{border-bottom:0}
 .kv td:first-child{color:var(--ink-3);width:42%;padding-right:12px}
 .pill{display:inline-flex;align-items:center;font:700 12px var(--mono);
@@ -354,8 +366,8 @@ h1 .hl{font-style:italic;
   border-top-color:#1b0f09;border-radius:50%;animation:spin .7s linear infinite;
   vertical-align:-2px}
 .hide{display:none!important}
-footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
-  font:11.5px/1.8 var(--mono);color:var(--ink-3);max-width:86ch}
+footer{margin-top:52px;padding-top:24px;border-top:1px solid var(--line);
+  font:11.5px/1.95 var(--mono);color:var(--ink-3);max-width:80ch}
 footer b{color:var(--ink-2)}
 </style>
 </head>
@@ -410,19 +422,9 @@ footer b{color:var(--ink-2)}
   <div class="examples hide" id="examples"></div>
 </section>
 
-<section class="demo hide" id="demoCard" aria-label="Run the example">
-  <div class="thumb" id="demoThumb"></div>
-  <div>
-    <div class="k">See it work</div>
-    <h3 id="demoTitle">Run a real issue, end to end</h3>
-    <p id="demoBlurb">One click runs the whole pipeline on a real GitHub issue
-      and its screenshot &mdash; no sign-up, no API key.</p>
-    <div class="row">
-      <button type="button" class="play" id="demoGo"><span class="tri">&#9654;</span>
-        <span id="demoBtnText">Run the example</span></button>
-      <button type="button" class="alt hide" id="demoAlt"></button>
-    </div>
-  </div>
+<section class="demos hide" id="demoCards" aria-label="Try an example">
+  <div class="lead">See it work &mdash; pick a screenshot</div>
+  <div class="dgrid" id="dgrid"></div>
 </section>
 
 <section class="how" aria-label="How it works">
@@ -564,45 +566,49 @@ fetch("/api/health").then(r=>r.json()).then(h=>{
   else if(!h.graph_exists) note("warn","<b>No graph.json found.</b> Ranking "+
     "will be search-only; call path and blast radius unavailable.");
 
-  // The landing page invites a judge to click ONE button, so it shows the
-  // screenshot that button will analyse rather than describing it.
+  // A judge lands cold, so the page leads with the screenshots themselves.
+  // Only SCREENSHOT demos are featured: a picture of a UI is what this
+  // product is for, and a terminal full of code buries that.
   const cached=(h.cached_issues||[]).slice();
-  if(cached.length){
-    const pick=cached.find(c=>/github\.com\/(?!northwind)/.test(c.issue_url||""))||cached[0];
-    const other=cached.find(c=>c!==pick);
-    const card=$("#demoCard"); card.classList.remove("hide");
-    const short=(pick.issue_url||"").replace(/^https?:\/\/github\.com\//,"");
-    $("#demoTitle").textContent=pick.title||"Run a real issue, end to end";
-    $("#demoBlurb").innerHTML="One click runs the whole pipeline on <b>"+
-      esc(short)+"</b> and the screenshot attached to it — "+
-      (pick.n_regions!=null?("<b>"+pick.n_regions+"</b> strings read off the "+
-       "image, "):"")+"ranked files, call graph, difficulty and blast radius. "+
-      "No sign-up, no API key.";
-    $("#demoBtnText").textContent="Run "+short.split("/").slice(0,2).join("/");
-    if(pick.image_url){
-      const t=$("#demoThumb");
-      const im=el("img"); im.src="/api/image?url="+encodeURIComponent(pick.image_url);
-      im.alt="screenshot attached to "+short;
-      im.onerror=()=>{ t.style.display="none"; };
-      t.appendChild(im);
-      const cap=el("div","cap","the screenshot it reads");
-      t.appendChild(cap);
-    }
-    const run=u=>{ $("#url").value=u;
-      $("#f").dispatchEvent(new Event("submit",{cancelable:true})); };
-    $("#demoGo").onclick=()=>run(pick.issue_url);
-    if(other){
-      const b=$("#demoAlt"); b.classList.remove("hide");
-      b.textContent="or "+(other.issue_url||"")
-        .replace(/^https?:\/\/github\.com\//,"");
-      b.onclick=()=>run(other.issue_url);
-    }
+  const featured=cached.filter(c=>c.image_cached&&/northwind/.test(c.issue_url||""));
+  const rest=cached.filter(c=>featured.indexOf(c)<0);
+  if(featured.length){
+    $("#demoCards").classList.remove("hide");
+    const grid=$("#dgrid");
+    featured.slice(0,2).forEach(c=>{
+      const short=(c.issue_url||"").replace(/^https?:\/\/github\.com\//,"");
+      const card=el("button","dcard"); card.type="button";
+      const w=el("div","shotwrap");
+      if(c.image_url){
+        const im=el("img");
+        im.src="/api/image?url="+encodeURIComponent(c.image_url);
+        im.alt="screenshot attached to "+short;
+        im.onerror=()=>{ w.style.display="none"; };
+        w.appendChild(im);
+      }
+      const tl=el("div","tagline","the screenshot \u2014 no file names anywhere in it");
+      w.appendChild(tl); card.appendChild(w);
+      const body=el("div","body");
+      body.appendChild(el("h3",null,c.title||short));
+      const m=el("div","meta");
+      m.innerHTML="<b>"+esc(c.n_regions||0)+"</b> strings read off the image \u00b7 "+
+        "<b>"+esc(c.n_ranked||0)+"</b> files ranked \u00b7 graph, difficulty "+
+        "and blast radius";
+      body.appendChild(m);
+      const cta=el("div","cta");
+      cta.innerHTML='<span class="tri">&#9654;</span> Run this one';
+      body.appendChild(cta); card.appendChild(body);
+      card.onclick=()=>{ $("#url").value=c.issue_url;
+        $("#f").dispatchEvent(new Event("submit",{cancelable:true})); };
+      grid.appendChild(card);
+    });
   }
 
   if(nc){
     const box=$("#examples"); box.classList.remove("hide");
-    box.appendChild(el("span",null,h.offline?"available offline:":"try:"));
-    (h.cached_issues||[]).forEach(c=>{
+    box.appendChild(el("span",null,
+      rest.length?"also cached (a real OSS repo):":"available offline:"));
+    (rest.length?rest:(h.cached_issues||[])).forEach(c=>{
       const b=el("button",null,(c.issue_url||"")
         .replace(/^https?:\/\/github\.com\//,""));
       b.type="button";
@@ -676,84 +682,111 @@ $("#f").onsubmit = ev=>{
 };
 
 /* ---- force-directed code graph ---------------------------------------- */
-const COMM_COLORS=["#d97757","#9d8df1","#7fa88a","#d9a441","#e06c5c","#6fa8c4"];
+const COMM_COLORS=["#d97757","#9d8df1","#7fa88a","#d9a441","#e06c5c",
+                   "#6fa8c4","#c98bb9","#b2b06a"];
+
 function drawGraph(sg){
-  const host=$("#viz"); host.innerHTML="";
+  const host=$("#viz"); host.innerHTML=""; host.classList.remove("focused");
   const nodes=(sg.nodes||[]).map(n=>Object.assign({},n));
   const edges=(sg.edges||[]);
   if(!nodes.length){ $("#cardViz").classList.add("hide"); return; }
   $("#cardViz").classList.remove("hide");
-  $("#vizMeta").textContent=nodes.length+" files · "+edges.length+" edges"+
-    (sg.truncated?" (truncated)":"");
 
-  const W=560, H=Math.max(250, Math.min(420, 150+nodes.length*15));
-  const byPath={};
-  nodes.forEach((n,i)=>{
-    const a=(i/nodes.length)*Math.PI*2;
-    const r=n.depth===0?0:(58+n.depth*56);
-    n.x=W/2+Math.cos(a)*r+(n.depth===0?(Math.random()-.5)*30:(Math.random()-.5)*24);
-    n.y=H/2+Math.sin(a)*r*0.78+(n.depth===0?(Math.random()-.5)*20:(Math.random()-.5)*24);
-    n.vx=0; n.vy=0; byPath[n.path]=n;
-  });
+  const W=620, H=Math.max(300,Math.min(470,210+Math.sqrt(nodes.length)*52));
+  const byPath={}; nodes.forEach(n=>{ byPath[n.path]=n; n.deg=0; });
   const links=edges.map(e=>({s:byPath[e.source],t:byPath[e.target],
     rel:e.relation,sp:e.source,tp:e.target})).filter(l=>l.s&&l.t);
+  links.forEach(l=>{ l.s.deg++; l.t.deg++; });
 
-  /* A small deterministic relaxation, run to completion before painting --
-     no animation loop, so it costs nothing after first paint. */
-  for(let step=0;step<320;step++){
-    for(let i=0;i<nodes.length;i++){
-      for(let j=i+1;j<nodes.length;j++){
-        const a=nodes[i],b=nodes[j];
-        const dx=b.x-a.x, dy=b.y-a.y, d2=(dx*dx+dy*dy)||.01;
-        const d=Math.sqrt(d2), f=2200/d2, ux=dx/d, uy=dy/d;
-        a.vx-=ux*f; a.vy-=uy*f; b.vx+=ux*f; b.vy+=uy*f;
-      }
+  const nbr={};
+  links.forEach(l=>{ (nbr[l.sp]=nbr[l.sp]||new Set()).add(l.tp);
+                     (nbr[l.tp]=nbr[l.tp]||new Set()).add(l.sp); });
+
+  $("#vizMeta").textContent=nodes.length+" files \u00b7 "+links.length+" edges"+
+    (sg.truncated?" (truncated)":"");
+
+  nodes.forEach((n,i)=>{
+    const a=(i/nodes.length)*Math.PI*2*1.618;
+    const r=n.depth===0?26:(74+n.depth*62);
+    n.x=W/2+Math.cos(a)*r; n.y=H/2+Math.sin(a)*r*.74;
+    n.vx=0; n.vy=0;
+  });
+  for(let step=0;step<420;step++){
+    for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++){
+      const p=nodes[i],q=nodes[j];
+      const dx=q.x-p.x, dy=q.y-p.y, d2=(dx*dx+dy*dy)||.01;
+      const d=Math.sqrt(d2), f=Math.min(2600/d2,8), ux=dx/d, uy=dy/d;
+      p.vx-=ux*f; p.vy-=uy*f; q.vx+=ux*f; q.vy+=uy*f;
     }
     links.forEach(l=>{
       const dx=l.t.x-l.s.x, dy=l.t.y-l.s.y;
-      const d=Math.sqrt(dx*dx+dy*dy)||.01, f=(d-104)*0.015, ux=dx/d, uy=dy/d;
+      const d=Math.sqrt(dx*dx+dy*dy)||.01;
+      const f=(d-96)*0.016, ux=dx/d, uy=dy/d;
       l.s.vx+=ux*f; l.s.vy+=uy*f; l.t.vx-=ux*f; l.t.vy-=uy*f;
     });
     nodes.forEach(n=>{
-      n.vx+=(W/2-n.x)*0.0045; n.vy+=(H/2-n.y)*0.0045;
-      if(n.depth===0){ n.vx*=.55; n.vy*=.55; }
-      n.vx*=0.82; n.vy*=0.82; n.x+=n.vx; n.y+=n.vy;
-      n.x=Math.max(50,Math.min(W-50,n.x));
-      n.y=Math.max(26,Math.min(H-26,n.y));
+      n.vx+=(W/2-n.x)*0.004; n.vy+=(H/2-n.y)*0.005;
+      if(n.depth===0){ n.vx*=.5; n.vy*=.5; }
+      n.vx*=.84; n.vy*=.84; n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(54,Math.min(W-54,n.x));
+      n.y=Math.max(32,Math.min(H-32,n.y));
     });
   }
 
   const svg=svgEl("svg",{viewBox:"0 0 "+W+" "+H,
     preserveAspectRatio:"xMidYMid meet",role:"img",
     "aria-label":"Code graph around the top-ranked files"});
-  const gEdges=svgEl("g",{}); svg.appendChild(gEdges);
+
+  const defs=svgEl("defs",{});
+  const fg=svgEl("filter",{id:"vglow",x:"-60%",y:"-60%",width:"220%",height:"220%"});
+  fg.appendChild(svgEl("feGaussianBlur",{stdDeviation:"3.4",result:"b"}));
+  const mg=svgEl("feMerge",{});
+  mg.appendChild(svgEl("feMergeNode",{in:"b"}));
+  mg.appendChild(svgEl("feMergeNode",{in:"SourceGraphic"}));
+  fg.appendChild(mg); defs.appendChild(fg); svg.appendChild(defs);
+
+  const gE=svgEl("g",{}); svg.appendChild(gE);
   links.forEach(l=>{
-    const ln=svgEl("line",{x1:l.s.x,y1:l.s.y,x2:l.t.x,y2:l.t.y,
+    const mx=(l.s.x+l.t.x)/2, my=(l.s.y+l.t.y)/2;
+    const dx=l.t.x-l.s.x, dy=l.t.y-l.s.y;
+    const len=Math.sqrt(dx*dx+dy*dy)||1;
+    const cx=mx-dy/len*len*0.12, cy=my+dx/len*len*0.12;
+    const ln=svgEl("path",{d:"M"+l.s.x+","+l.s.y+" Q"+cx+","+cy+" "+l.t.x+","+l.t.y,
       class:"vz-edge "+(l.rel==="calls"?"calls":"")});
     ln.dataset.a=l.sp; ln.dataset.b=l.tp;
     const tt=svgEl("title",{});
-    tt.textContent=l.sp+" "+(l.rel||"related")+" "+l.tp;
-    ln.appendChild(tt); gEdges.appendChild(ln);
+    tt.textContent=l.sp+"  "+(l.rel||"related")+"  "+l.tp;
+    ln.appendChild(tt); gE.appendChild(ln);
   });
+
   nodes.forEach((n,i)=>{
     const g=svgEl("g",{class:"vz-node"+(n.seed?" seed":"")});
     g.dataset.path=n.path;
     const ci=n.community==null?0:(parseInt(n.community,10)||0);
     const col=COMM_COLORS[Math.abs(ci)%COMM_COLORS.length];
-    const rad=n.seed?11:(n.depth===1?7.5:5.5);
-    if(n.seed) g.appendChild(svgEl("circle",
-      {cx:n.x,cy:n.y,r:rad+7,class:"halo",stroke:col}));
+    const rad=n.seed?11.5:Math.min(9.5,4.6+Math.sqrt(n.deg)*1.5);
+    if(n.seed){
+      g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:13,class:"pulse",stroke:col}));
+      g.appendChild(svgEl("circle",{cx:n.x,cy:n.y,r:rad+6,class:"ring",stroke:col}));
+    }
     const c=svgEl("circle",{cx:n.x,cy:n.y,r:rad,fill:col,class:"core",
-      "fill-opacity":n.seed?0.95:0.6,stroke:col,"stroke-width":n.seed?0:1});
-    c.style.animation="pop .5s cubic-bezier(.2,1.4,.4,1) "+(i*45)+"ms both";
+      "fill-opacity":n.seed?.96:.62,stroke:col,"stroke-width":n.seed?0:1});
+    if(n.seed) c.setAttribute("filter","url(#vglow)");
+    c.style.animation="pop .55s cubic-bezier(.2,1.4,.4,1) "+(i*28)+"ms both";
     const tt=svgEl("title",{});
-    tt.textContent=n.path+"  (hop "+n.depth+")";
+    tt.textContent=n.path+" \u00b7 hop "+n.depth+" \u00b7 "+n.deg+" connections";
     c.appendChild(tt); g.appendChild(c);
-    const base=n.path.split("/").pop();
-    const t=svgEl("text",{x:n.x,y:n.y+rad+12});
-    t.textContent=base.length>18?base.slice(0,17)+"…":base;
-    g.appendChild(t);
+    if(n.seed||n.deg>1||nodes.length<=24){
+      const base=n.path.split("/").pop();
+      const t=svgEl("text",{x:n.x,y:n.y+rad+13});
+      t.textContent=base.length>17?base.slice(0,16)+"\u2026":base;
+      g.appendChild(t);
+    }
     g.onclick=()=>focusFile(n.path);
+    g.onmouseenter=()=>hoverNode(n.path,nbr);
+    g.onmouseleave=()=>{ host.classList.remove("focused");
+      document.querySelectorAll(".vz-node,.vz-edge")
+        .forEach(x=>x.classList.remove("near")); };
     svg.appendChild(g);
   });
   host.appendChild(svg);
@@ -762,12 +795,22 @@ function drawGraph(sg){
   nodes.forEach(n=>{ const ci=n.community==null?0:(parseInt(n.community,10)||0);
     if(!seen.has(ci)) seen.set(ci,COMM_COLORS[Math.abs(ci)%COMM_COLORS.length]); });
   const lg=$("#vizLegend"); lg.innerHTML="";
-  [...seen.entries()].slice(0,6).forEach(([ci,col])=>{
-    const s=el("span"); s.innerHTML='<i style="background:'+col+'"></i>community '+ci;
-    lg.appendChild(s); });
-  const s2=el("span");
-  s2.innerHTML='<i style="background:var(--clay)"></i>solid = calls';
-  lg.appendChild(s2);
+  const chip=(html,cls)=>{ const e=el("span","lgchip"+(cls?" "+cls:""));
+    e.innerHTML=html; lg.appendChild(e); };
+  [...seen.entries()].slice(0,5).forEach(entry=>
+    chip('<i style="background:'+entry[1]+'"></i>subsystem '+entry[0]));
+  if(seen.size>5) chip("+"+(seen.size-5)+" more subsystems");
+  chip("<i></i>calls","flow");
+  chip("bigger dot = more connections");
+}
+
+function hoverNode(path,nbr){
+  const host=$("#viz"); host.classList.add("focused");
+  const near=nbr[path]||new Set();
+  document.querySelectorAll(".vz-node").forEach(g=>
+    g.classList.toggle("near",g.dataset.path===path||near.has(g.dataset.path)));
+  document.querySelectorAll(".vz-edge").forEach(l=>
+    l.classList.toggle("near",l.dataset.a===path||l.dataset.b===path));
 }
 
 function focusFile(path){

@@ -1,0 +1,334 @@
+{
+  "issue_url": null,
+  "repo_root": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo",
+  "graph_path": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo\\graphify-out\\graph.json",
+  "degraded": [
+    "rerank returned no usable path: showing the fused ranking"
+  ],
+  "timing": {
+    "fetch": 0.0,
+    "xray": 0.0,
+    "search": 0.012,
+    "graph": 0.0,
+    "rerank": 17.534,
+    "total": 17.546
+  },
+  "variant": "snaplocate",
+  "weights_are_untuned": true,
+  "issue": {
+    "owner": "northwind",
+    "repo": "shop",
+    "number": 214,
+    "title": "Monthly sales export fails",
+    "url": "https://github.com/northwind/shop/issues/214",
+    "state": "closed"
+  },
+  "image_urls": [
+    "https://user-images.githubusercontent.com/0/northwind-reports.jpg"
+  ],
+  "image_bytes": 18823,
+  "image_mime": "image/jpeg",
+  "xray": {
+    "surface": "Monthly sales report",
+    "symptom": "An error message with spelling mistakes appears when attempting to generate the report.",
+    "regions": [
+      {
+        "id": "r1",
+        "text": "Coudn't genrate your report",
+        "kind": "error",
+        "box": [
+          355,
+          53,
+          382,
+          272
+        ],
+        "box_frac": {
+          "left": 0.053,
+          "top": 0.355,
+          "width": 0.219,
+          "height": 0.027
+        },
+        "suspect": true,
+        "why": "Contains spelling errors 'Coudn't' and 'genrate' in the error message."
+      },
+      {
+        "id": "r2",
+        "text": "The report took too long to build. Try a shorter range.",
+        "kind": "error",
+        "box": [
+          395,
+          53,
+          416,
+          391
+        ],
+        "box_frac": {
+          "left": 0.053,
+          "top": 0.395,
+          "width": 0.338,
+          "height": 0.021
+        },
+        "suspect": true,
+        "why": "Part of the error message explaining the failure."
+      }
+    ],
+    "model": "gemma-4-26b-a4b-it",
+    "box_convention": {
+      "order": [
+        "ymin",
+        "xmin",
+        "ymax",
+        "xmax"
+      ],
+      "scale": 1000,
+      "verified": true,
+      "verified_on": "gemma-4-26b-a4b-it"
+    },
+    "raw_text": "The user wants me to analyze a screenshot of a software bug report.\nThe bug report context says: \"Monthly sales report fails to download. Spelling looks off too.\"\n\nLooking at the image:\n- Surface: Monthly sales report page.\n- Symptom: An error message appears when trying to download/generate the report, and it contains spelling errors.\n- Error message: \"Coudn't genrate your report\"\n- Sub-text: \"The report took too long to build. Try a shorter range.\"\n- Spelling errors identified: \"Coudn't\" (should be Couldn't), \"genrate\" (should be generate).\n\nLet's identify regions:\n1. \"Coudn't genrate your report\" (error message, suspect: true)\n2. \"The report took too long to build. Try a shorter range.\" (error detail, suspect: true)\n3. \"No orders in this date range\" (label/status, suspect: false)\n4. \"Monthly sales\" (heading, suspect: false)\n5. \"Download CSV\" (button, suspect: false)\n6. \"Schedule\" (button, suspect: false)\n7. \"01 Sep \u2013 30 Sep\" (value, suspect: false)\n\nI will focus on the error message as it's the most \"suspect\" part and matches the bug report description.\n\nCoordinates estimation (0-1000):\n- \"Coudn't genrate your report\":\n  - ymin: ~350\n  - xmin: ~50\n  - ymax: ~380\n  - xmax: ~300\n  Wait, let's look closer at the image.\n  The red error box is roughly from y=325 to y=440.\n  The text \"Coudn't genrate your report\" is at y ~ 355.\n  The text \"The report took too long to build. Try a shorter range.\" is at y ~ 395.\n\nLet's refine coordinates:\nImage size is roughly 1000x750 (aspect ratio).\nTop nav: 0-80\n\"Monthly sales\": 130-170\n\"Date range\" label: 210\nInput box: 240-295\n\"Download CSV\" button: 235-295, x=230-380\n\"Schedule\" button: 235-295, x=390-500\nError box: y=325 to y=440, x=35 to x=970\n\"Coudn't genrate your report\": y=355, x=53, y=380, x=275\n\"The report took too long to build. Try a shorter range.\": y=395, x=53, y=415, x=390\n\"No orders in this date range\": y=530, x=405, y=555, x=605\n\nLet's re-verify the text:\n\"Coudn't genrate your report\"\n\"The report took too long to build"
+  },
+  "search": {
+    "regions_dropped": [
+      {
+        "id": "r2",
+        "text": "The report took too long to build. Try a shorter range.",
+        "reason": "no_match"
+      }
+    ],
+    "suspect_boosted": [
+      "src/reports/builder.py"
+    ],
+    "files_scanned": 12
+  },
+  "region_files": {
+    "r1": [
+      "src/reports/builder.py"
+    ]
+  },
+  "graph": {
+    "source": "C:/Users/AADI/AppData/Local/Claude-Data/claude_pzs8sxrjxfjjc/scratch-workspaces/acefd4da-bdb8-4b81-abb5-83b52a084add/c6c9b9f2-7ed8-4fc3-927b-25f3c20c4a1e/scratch-2026-10-22-01a9a9\\demo-repo\\graphify-out\\graph.json",
+    "ok": true,
+    "reason": "ok",
+    "nodes": 43,
+    "edges": 59,
+    "path_key": "source_file",
+    "path_candidates": [
+      {
+        "key": "source_file",
+        "coverage": 1.0,
+        "quality": 0.86,
+        "score": 0.8605
+      },
+      {
+        "key": "label",
+        "coverage": 1.0,
+        "quality": 0.195,
+        "score": 0.1953
+      },
+      {
+        "key": "id",
+        "coverage": 1.0,
+        "quality": 0.0,
+        "score": 0.0
+      }
+    ],
+    "community_key": "community",
+    "community_candidates": [
+      {
+        "key": "community",
+        "coverage": 1.0,
+        "quality": 1.0,
+        "distinct": 9,
+        "score": 1.0
+      }
+    ],
+    "edge_keys": {
+      "source": "source",
+      "target": "target"
+    },
+    "sample_paths": [
+      "src/payments.py",
+      "src/core/db.py",
+      "src/api/reports.js",
+      "src/ui/reports_page.js",
+      "src/ui/reports_page.js"
+    ],
+    "builder_note": null,
+    "builder": "graphify",
+    "relations": {
+      "contains": 19,
+      "calls": 12,
+      "imports": 12,
+      "imports_from": 7,
+      "rationale_for": 6,
+      "inherits": 2,
+      "uses": 1
+    },
+    "communities": 9,
+    "propagation": {
+      "resolved": 12,
+      "how": {
+        "exact": 12,
+        "suffix": 0,
+        "basename": 0,
+        "unresolved": 0,
+        "nodes_mapped": 37
+      },
+      "include_hop0": true
+    }
+  },
+  "ranked": [
+    {
+      "path": "src/reports/builder.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r1",
+          "text": "Coudn't genrate your report",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.398666
+        }
+      ]
+    },
+    {
+      "path": "src/core/db.py",
+      "score": 0.3,
+      "seed": 0.0,
+      "graph": 0.75,
+      "rank": 2,
+      "evidence": []
+    },
+    {
+      "path": "src/reports/export.py",
+      "score": 0.166667,
+      "seed": 0.0,
+      "graph": 0.416667,
+      "rank": 3,
+      "evidence": []
+    },
+    {
+      "path": "src/reports/formatter.py",
+      "score": 0.166667,
+      "seed": 0.0,
+      "graph": 0.416667,
+      "rank": 4,
+      "evidence": []
+    }
+  ],
+  "ranking_used_graph": true,
+  "rerank": {
+    "top": [],
+    "call_path": [],
+    "confidence": "unknown",
+    "hallucinated_paths_dropped": [],
+    "model": "gemma-4-26b-a4b-it",
+    "ran": true
+  },
+  "final_source": "fusion",
+  "final": [
+    {
+      "path": "src/reports/builder.py",
+      "score": 1.0,
+      "seed": 1.0,
+      "graph": 1.0,
+      "rank": 1,
+      "evidence": [
+        {
+          "region": "r1",
+          "text": "Coudn't genrate your report",
+          "exactness": 1.0,
+          "df": 1,
+          "contribution": 0.398666
+        }
+      ]
+    },
+    {
+      "path": "src/core/db.py",
+      "score": 0.3,
+      "seed": 0.0,
+      "graph": 0.75,
+      "rank": 2,
+      "evidence": []
+    },
+    {
+      "path": "src/reports/export.py",
+      "score": 0.166667,
+      "seed": 0.0,
+      "graph": 0.416667,
+      "rank": 3,
+      "evidence": []
+    }
+  ],
+  "subgraph": {
+    "nodes": [
+      {
+        "path": "src/core/db.py",
+        "depth": 0,
+        "community": "5",
+        "seed": true
+      },
+      {
+        "path": "src/reports/builder.py",
+        "depth": 0,
+        "community": "7",
+        "seed": true
+      },
+      {
+        "path": "src/reports/export.py",
+        "depth": 0,
+        "community": "7",
+        "seed": true
+      },
+      {
+        "path": "src/reports/formatter.py",
+        "depth": 1,
+        "community": "2",
+        "seed": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "src/core/db.py",
+        "target": "src/reports/builder.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/reports/builder.py",
+        "target": "src/reports/export.py",
+        "relation": "imports"
+      },
+      {
+        "source": "src/reports/builder.py",
+        "target": "src/reports/formatter.py",
+        "relation": "calls"
+      }
+    ],
+    "truncated": false,
+    "total_files": 4
+  },
+  "difficulty": {
+    "label": "L",
+    "reason": "3 subsystems touched",
+    "subsystems": [
+      "5",
+      "6",
+      "7"
+    ],
+    "neighbours": 3,
+    "confident": true
+  },
+  "blast_radius": {
+    "files": [
+      "src/core/db.py",
+      "src/reports/export.py",
+      "src/reports/formatter.py"
+    ],
+    "count": 3,
+    "available": true,
+    "origin": "src/reports/builder.py",
+    "hops": 2,
+    "note": "files reachable within 2 hops of src/reports/builder.py; upper bound on what a fix here could affect, not a prediction of the diff"
+  }
+}

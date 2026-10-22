@@ -1,0 +1,45 @@
+<!doctype html><meta charset="utf-8"><title>Northwind — Reports</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;background:#f5f6f8;
+  color:#1b1f26;width:900px;height:640px}
+.top{background:#fff;border-bottom:1px solid #e3e6ea;padding:14px 28px;
+  display:flex;align-items:center;gap:26px}
+.brand{font-weight:700;font-size:17px;color:#2b6cb0}
+.nav{display:flex;gap:20px;color:#5a6474;font-size:14px}
+.nav .on{color:#2b6cb0;font-weight:600;border-bottom:2px solid #2b6cb0;
+  padding-bottom:15px;margin-bottom:-16px}
+.main{padding:28px}
+h1{font-size:22px;margin-bottom:18px}
+.bar{display:flex;gap:12px;align-items:flex-end;margin-bottom:18px}
+.fld label{display:block;font-size:12px;color:#5a6474;margin-bottom:5px}
+.fld input{border:1px solid #cdd3db;border-radius:6px;padding:9px 11px;
+  font:14px inherit;width:170px;background:#fff}
+.err{background:#fdecea;border:1px solid #f5c2c0;border-left:4px solid #d93025;
+  border-radius:6px;padding:14px 16px;margin-bottom:18px}
+.err .t{color:#b3261e;font-weight:600;font-size:15px}
+.err .d{color:#7a2e29;font-size:13px;margin-top:3px}
+.card{background:#fff;border:1px solid #e3e6ea;border-radius:8px;padding:34px;
+  text-align:center;color:#8a93a0;font-size:14px}
+button{font:600 14px inherit;padding:11px 20px;border-radius:6px;cursor:pointer}
+.pri{background:#2b6cb0;color:#fff;border:0}
+.sec{background:#fff;color:#49505e;border:1px solid #cdd3db}
+</style>
+<div class="top">
+  <span class="brand">Northwind</span>
+  <div class="nav"><span>Products</span><span>Orders</span>
+    <span class="on">Reports</span><span>Account</span></div>
+</div>
+<div class="main">
+  <h1>Monthly sales</h1>
+  <div class="bar">
+    <div class="fld"><label>Date range</label><input value="01 Sep – 30 Sep"></div>
+    <button class="pri">Download CSV</button>
+    <button class="sec">Schedule</button>
+  </div>
+  <div class="err">
+    <div class="t">Coudn't genrate your report</div>
+    <div class="d">The report took too long to build. Try a shorter range.</div>
+  </div>
+  <div class="card">No orders in this date range</div>
+</div>

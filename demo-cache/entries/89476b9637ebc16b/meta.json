@@ -1,0 +1,16 @@
+{
+  "issue_url": "https://github.com/northwind/shop/issues/214",
+  "recorded_at": 1792668761.106495,
+  "recorded_at_human": "2026-10-22 17:02:41",
+  "title": "Monthly sales export fails",
+  "model": "gemma-4-26b-a4b-it",
+  "variant": "snaplocate",
+  "used_graph": true,
+  "n_ranked": 4,
+  "n_regions": 2,
+  "image_key": "bffa117a255f323b",
+  "image_url": "https://user-images.githubusercontent.com/0/northwind-reports.jpg",
+  "degraded_when_recorded": [
+    "rerank returned no usable path: showing the fused ranking"
+  ]
+}
