@@ -17,3 +17,6 @@ demo-cache/*.tmp
 # demo-repo/graphify-out/graph.json and demo-cache/ ARE committed on purpose:
 # together they let anyone clone and run the full UI offline with no API key.
 # See "Try it with no API key" in the README.
+
+# Vercel
+.vercel/
