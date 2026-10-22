@@ -17,9 +17,6 @@ python3 -m snaplocate.cli serve --repo <repo> --graph <repo>/graphify-out/graph.
 | Host | DigitalOcean Droplet, or DO Serverless Inference for the model |
 
 
-**A GitHub issue with a screenshot and no file names goes in. The likely source
-files, the call path, an S/M/L difficulty rating and the blast radius come out.**
-
 A first-time contributor opens an issue that says *"it's broken"* and attaches a
 screenshot. There is no stack trace and no file name. SnapLocate reads the
 pixels, pulls the on-screen strings, finds them in the repo, and expands the
