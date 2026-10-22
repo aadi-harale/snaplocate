@@ -265,61 +265,57 @@ happened to work.
 
 ---
 
-## DigitalOcean
+## Deployment
 
-DigitalOcean carries this project in **two independent places**. Either alone
-satisfies the track; both are wired.
+### Live: Vercel
 
-### 1. The app runs on a Droplet
+<https://snaplocate.vercel.app> &mdash; public, no key, no sign-up.
 
-One command on a fresh Ubuntu Droplet. Because the backend is stdlib-only
-there is **nothing to `pip install`** — `git` + `python3` + the repo and it
-serves:
+`snaplocate/server.py` is a `BaseHTTPRequestHandler`, which is exactly what
+Vercel's Python runtime imports, so `api/index.py` is a configuration shim
+rather than a second implementation: the same code serves locally, on Vercel
+and on a plain server. It runs in offline mode against the committed cache, so
+**the deployment holds no secret at all**.
+
+### Anywhere else: one script, no dependencies
+
+`deploy/droplet.sh` sets the service up on any Ubuntu box &mdash; a VPS, a
+spare laptop, a Raspberry Pi. Because the backend is standard-library only
+there is **nothing to `pip install`**: git + python3 + this repo and it serves.
 
 ```bash
-ssh root@<droplet-ip>
-curl -fsSL https://raw.githubusercontent.com/aadi-harale/snaplocate/main/deploy/droplet.sh -o droplet.sh
 GEMMA_API_KEY=xxx REPO_URL=https://github.com/aadi-harale/snaplocate bash droplet.sh
 ```
 
-The script installs git + python3 + ufw and nothing else, **runs the self-test
-and refuses to start the service if it fails**, creates a non-login service
-user, writes the key to `/etc/snaplocate.env` at mode 600, registers a systemd
-unit so it survives the SSH session closing, opens ufw 22 + 8000, then waits
-for `/api/health` and prints the public URL. A failed start dumps the journal
-rather than claiming success.
+It installs git, python3 and ufw and nothing else, **runs the self-test and
+refuses to start the service if it fails**, creates a non-login service user,
+writes the key to `/etc/snaplocate.env` at mode 600, registers a systemd unit
+so it survives the SSH session closing, opens ufw 22 + 8000, waits for
+`/api/health` and prints the URL. A failed start dumps the journal instead of
+claiming success.
 
-The cheapest Droplet is enough: the service is one stdlib `http.server`
-process with no database and no build step.
+> **Written and syntax-checked, but never run on a real server.** Treat it as
+> a starting point, not a tested path.
 
-### 2. The model itself runs on DigitalOcean
+### Optional: DigitalOcean Serverless Inference
 
-Gemma 4 is **open-weight**, so DigitalOcean serves the same model through
-Serverless Inference. SnapLocate treats the provider as swappable behind one
-JSON contract — no pipeline stage knows which is in use:
+Gemma 4 is open-weight, so DigitalOcean serves the same model. The provider is
+swappable behind one JSON contract &mdash; no pipeline stage knows which is in
+use:
 
 ```bash
 export SNAPLOCATE_PROVIDER=digitalocean
 export DIGITALOCEAN_INFERENCE_KEY=...
-python3 -m snaplocate.cli locate <issue_url> --repo <r> --graph <g>
 ```
 
 `https://inference.do-ai.run/v1`, OpenAI-compatible, model `gemma-4-31B-it`.
 Implemented in `snaplocate/gemma.py` (`provider()`, `_post()`,
-`_parts_to_openai()`), which translates our `generateContent` parts into
-OpenAI chat blocks and reads either reply shape.
+`_parts_to_openai()`).
 
-> **This path is written but NOT TESTED** — no DigitalOcean key was available
-> when it was built. The Google path is verified working. Run it once before
-> relying on it.
-
-### Which one to use
-
-| | Droplet | Serverless Inference |
-|---|---|---|
-| What it hosts | the web UI + API | the Gemma 4 model |
-| Needed to demo | yes, for a public URL | no — the Google path works |
-| Status | script ready, **not yet run** | code ready, **untested** |
+> **Written but NOT TESTED** &mdash; no DigitalOcean account was used. The
+> Google path is verified working. The point of this code is that an
+> open-weight model is not locked to one vendor; do not read it as a
+> deployment that happened.
 
 ---
 
@@ -349,22 +345,6 @@ the recording timestamp and age, the CLI prints a boxed notice, and
 `degraded[0]` says so in the JSON. It is the same rule as the fallback graph:
 the demo has to survive the wifi, not the audience's trust. A failed run is
 never cached — replaying an error is just a second way to fail on stage.
-
----
-
-## Deploy (DigitalOcean)
-
-```bash
-ssh root@<droplet-ip>
-GEMMA_API_KEY=xxx REPO_URL=https://github.com/you/snaplocate bash droplet.sh
-```
-
-Ubuntu Droplet, systemd service (survives the SSH session closing), `ufw`
-allowing 22 and 8000. The script installs **git and python3 only** — there is
-nothing to pip install, by design — and refuses to start the service if
-`scripts/selftest.py` fails.
-
-Plain HTTP, no TLS, no auth: fine for a demo, not for leaving up.
 
 ---
 
