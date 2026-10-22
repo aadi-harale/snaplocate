@@ -24,6 +24,12 @@ if ROOT not in sys.path:
 
 from snaplocate.server import Handler as _Handler   # noqa: E402
 
+# NOTE: Vercel finds the entrypoint by looking for a top-level `app`,
+# `application` or `handler`, and it does NOT see a plain assignment like
+# `handler = _Handler` -- that failed the build with
+# PYTHON_ENTRYPOINT_NOT_FOUND. It has to be a real class statement, so
+# `handler` subclasses our server's Handler and inherits every route.
+
 _Handler.repo_root = os.path.join(ROOT, "demo-repo")
 _Handler.graph_path = os.path.join(ROOT, "demo-repo", "graphify-out", "graph.json")
 _Handler.cache_dir = os.path.join(ROOT, "demo-cache")
@@ -31,4 +37,6 @@ _Handler.offline = True      # replay only; never reach the network
 _Handler.record = False      # the filesystem is read-only here
 _Handler.cache_first = True
 
-handler = _Handler
+class handler(_Handler):            # noqa: N801  (Vercel requires this name)
+    """The Vercel entrypoint. All behaviour is inherited from the one server
+    implementation in snaplocate/server.py -- this adds nothing."""
